@@ -24,8 +24,10 @@ import Settings from "../screens/App/AccountSetting";
 import ModalBox from "../screens/App/Modal";
 import Offers from "../screens/App/offers";
 import OffersLoading from "../screens/App/offersLoading";
-import StartScreen from '../screens/SignForm/start'
-import SignUp from '../screens/SignForm/signUp'
+import StartScreen from '../screens/SignForm/start';
+import SignUp from '../screens/SignForm/signUp';
+import TimePicker from '../screens/App/picker';
+import Chat from '../screens/App/Chat';
 
 import { strings, currentLocale } from '../i18n';
 
@@ -123,11 +125,19 @@ const DrawerNavigator = createDrawerNavigator(
         {
             screen: SignUp,
         },
+        TimePicker:
+        {
+            screen: TimePicker,
+        },
+        Chat:
+        {
+            screen: Chat,
+        },
 
     },
     {
         // drawerPosition: currentLocale == 'ar' ? 'left' : 'right',
-        initialRouteName: 'OffersLoading',
+        initialRouteName: 'Chat',
     }
 );
 export default DrawerNavigator;
