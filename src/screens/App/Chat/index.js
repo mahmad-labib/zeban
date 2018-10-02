@@ -12,8 +12,11 @@ export default class Chat extends Component {
         const nav = this.props.navigation
         return (
             <AppTemplate navigation={nav} name="تحديد وقت التسليم">
-                   <ChatBubble text=" !مرحبا " user="current" />
-                   <ChatBubble text=" !مرحبا " user="friend" />
+                <View style={{ width: '95%', flexDirection: 'column', alignSelf:'center' }}>
+                    <ChatBubble text=" !مرحبا " user="current" />
+                    <ChatBubble text="يا هلا انا بالخدمه" user="friend" />
+                    <ChatBubble text="هل تستطيع توصيل الطلب في الوقت المحدد" user="current" />
+                </View>
             </AppTemplate>
         );
     }
