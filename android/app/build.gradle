@@ -170,6 +170,10 @@ dependencies {
       exclude group: 'com.google.android.gms', module: 'play-services-base'
       exclude group: 'com.google.android.gms', module: 'play-services-maps'
     }
+    implementation(project(":react-native-google-signin")){
+        exclude group: "com.google.android.gms" // very important
+    }
+    implementation 'com.google.android.gms:play-services-auth:16.0.0' // should be at least 15.0.0 to work with the most recent APIs
 
   // RNFirebase required dependencies
   implementation "com.google.firebase:firebase-core:16.0.1"

@@ -137,7 +137,7 @@ const DrawerNavigator = createDrawerNavigator(
     },
     {
         // drawerPosition: currentLocale == 'ar' ? 'left' : 'right',
-        initialRouteName: 'Chat',
+        initialRouteName: 'SignUp',
     }
 );
 export default DrawerNavigator;
