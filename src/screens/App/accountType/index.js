@@ -1,28 +1,72 @@
 import React, { Component } from 'react';
+import firebase from 'react-native-firebase';
+import { connect } from 'react-redux';
 import { Button, Text, View } from 'native-base';
+import { TouchableWithoutFeedback } from 'react-native';
+import { AccountTypeAction } from '../../../actions';
 import AppTemplate from '../appTemplate';
 import Square from '../../../components/common/square';
-import Driver from '../../../png/taxi-driver.png';
-import User from '../../../png/user0.png';
+import DriverSelected from '../../../png/taxi-driver.png';
+import Driver from '../../../png/taxi-driver-gray.png';
+import UserSelected from '../../../png/user0.png';
+import User from '../../../png/user.png';
 
 
-export default class AccountType extends Component {
+class AccountType extends Component {
+  state = {
+    userImg: User,
+    driverImg: Driver,
+    selected: '',
+    userShadow: false,
+    DriverShadow: false
+  }
+
+  AddUser() {
+    this.setState({ userImg: UserSelected, driverImg: Driver, userShadow: true, DriverShadow: false, selected: 'User' });
+    console.log(this.state);
+  }
+
+  AddDriver() {
+    this.setState({ driverImg: DriverSelected, userImg: User, selected: 'Driver', userShadow: false, DriverShadow: true });
+    console.log(this.state);
+  }
+
+  OnButtonPress(navigation) {
+    // const { currentUser } = firebase.auth();
+    // const usersRef = firebase.database().ref('users');
+    // console.log(currentUser);
+    // usersRef.child(currentUser.uid).update({
+    //   accountType: 'user'
+    // })
+    this.props.AccountTypeAction(this.state.selected);
+    console.log(`${this.state.selected}Form`);
+    navigation.navigate(`${this.state.selected}Form`);
+  }
+
   render() {
-    const nav = this.props.navigation
+    const nav = this.props.navigation;
     return (
       <AppTemplate navigation={nav} name="نوع الحساب">
         <View style={{ flexDirection: 'column', flex: 1, marginTop: 30 }}>
           <View style={{ flexDirection: 'row', width: '90%', alignSelf: 'center', flex: 1 }}>
-            <Square Img={Driver} HeaderText='سائق' width={100} />
-            <Square Img={User} HeaderText='مستخدم' width={100} />
+            <TouchableWithoutFeedback onPress={() => this.AddDriver()}>
+              <View style={{ flex: 1 }}>
+                <Square Img={this.state.driverImg} HeaderText='سائق' width={100} shadow={this.state.DriverShadow} />
+              </View>
+            </TouchableWithoutFeedback>
+            <TouchableWithoutFeedback onPress={() => this.AddUser()}>
+              <View style={{ flex: 1 }}>
+                <Square Img={this.state.userImg} HeaderText='مستخدم' width={100} shadow={this.state.userShadow} />
+              </View>
+            </TouchableWithoutFeedback>
           </View>
         </View>
         <View style={{ flexDirection: 'column', alignSelf: 'center', height: 250, width: '50%', justifyContent: 'flex-end' }}>
           <Button rounded block style={{ backgroundColor: '#15588D', }}>
-            <Text style={{ fontSize: 20 }}>موافق</Text>
+            <Text style={{ fontSize: 20 }} onPress={() => this.OnButtonPress(nav)} >موافق</Text>
           </Button>
         </View>
-      </AppTemplate>
+      </AppTemplate >
     );
   }
 }
@@ -66,4 +110,13 @@ const styles = {
     bot: 0,
     position: 'absolute'
   }
-}
+};
+
+
+// const mapStateToProps = (state) => {
+//   const { name, phone, shift } = state.employeeForm;
+
+//   return { name, phone, shift };
+// };
+
+export default connect(null, { AccountTypeAction })(AccountType);

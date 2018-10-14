@@ -3,33 +3,32 @@ import { createDrawerNavigator } from 'react-navigation';
 // import AppTabNavigator from './appTabNavigator'
 // import Loading from '../components/spinner'
 // import Header2 from "../components/Header2";
-import AccountType from "../screens/App/accountType";
-import CarType from "../screens/App/CarType";
-import DriverForm from "../screens/App/DriverForm";
-import UserForm from "../screens/App/Form";
-import ReportForm from "../screens/App/reportForm";
-import Talabaty from "../screens/App/talbaty";
-import Complainings from "../screens/App/complainings";
-import Policy from "../screens/App/Policy";
-import Invite from "../screens/App/Invite";
-import OrderNow from "../screens/App/orderNow";
-import TalabDetails from "../screens/App/map";
-import AddTalab from "../screens/App/addTalab";
-import TalabDetails1 from "../screens/App/talabDetails";
-import TalabDetails2 from "../screens/App/talabDetails2";
-import TalabDetails3 from "../screens/App/talabDetails3";
-import User from "../screens/Account/User";
-import Driver from "../screens/Account/Driver";
-import Settings from "../screens/App/AccountSetting";
-import ModalBox from "../screens/App/Modal";
-import Offers from "../screens/App/offers";
-import OffersLoading from "../screens/App/offersLoading";
+import AccountType from '../screens/App/accountType';
+import CarType from '../screens/App/CarType';
+import DriverForm from '../screens/App/DriverForm';
+import UserForm from '../screens/App/Form';
+import ReportForm from '../screens/App/reportForm';
+import Talabaty from '../screens/App/talbaty';
+import Complainings from '../screens/App/complainings';
+import Policy from '../screens/App/Policy';
+import Invite from '../screens/App/Invite';
+import OrderNow from '../screens/App/orderNow';
+import TalabDetails from '../screens/App/map';
+import AddTalab from '../screens/App/addTalab';
+import TalabDetails1 from '../screens/App/talabDetails';
+import TalabDetails2 from '../screens/App/talabDetails2';
+import TalabDetails3 from '../screens/App/talabDetails3';
+import User from '../screens/Account/User';
+import Driver from '../screens/Account/Driver';
+import Settings from '../screens/App/AccountSetting';
+import ModalBox from '../screens/App/Modal';
+import Offers from '../screens/App/offers';
+import OffersLoading from '../screens/App/offersLoading';
 import StartScreen from '../screens/SignForm/start';
 import SignUp from '../screens/SignForm/signUp';
 import TimePicker from '../screens/App/picker';
 import Chat from '../screens/App/Chat';
 
-import { strings, currentLocale } from '../i18n';
 
 const DrawerNavigator = createDrawerNavigator(
     {

@@ -5,6 +5,13 @@ import AutoHeightImage from 'react-native-auto-height-image';
 
 
 export default class Square extends Component {
+  state = {
+    shadow: false
+  }
+
+  // componentWillReceiveProps() {
+  //   this.setState({ shadow: this.props.shadow });
+  // }
 
   HeaderText() {
     if (this.props.HeaderText) {
@@ -18,11 +25,12 @@ export default class Square extends Component {
     }
   }
 
+
   render() {
     return (
       <View style={{ flex: 1, flexDirection: 'column' }}>
         {this.HeaderText()}
-        <View style={styles.box} >
+        <View style={[styles.box, (this.props.shadow) ? styles.boxShadow : null]} >
 
           <View style={{ flexDirection: 'row', alignSelf: 'center', flex: 2 }}>
             <AutoHeightImage
@@ -55,6 +63,8 @@ const styles = {
     margin: 20,
     borderRadius: 12,
     backgroundColor: '#FFFFFF',
+  },
+  boxShadow: {
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -63,5 +73,5 @@ const styles = {
     shadowOpacity: 0.30,
     shadowRadius: 4.65,
     elevation: 8,
-  },
-}
+  }
+};

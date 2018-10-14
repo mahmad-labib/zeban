@@ -4,9 +4,12 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.airbnb.android.react.maps.MapsPackage;
-import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
+// import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
+import co.apptailor.googlesignin.RNGoogleSigninPackage;
+// import co.apptailor.googlesignin.RNGoogleSigninPackage;
+// import com.airbnb.android.react.maps.MapsPackage;
+// import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import com.reactnative.photoview.PhotoViewPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
@@ -49,10 +52,12 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.asList(
-        new MainReactPackage(),
-        new RNGoogleSigninPackage(),
+            new MainReactPackage(),
             new MapsPackage(),
-            new RNI18nPackage(),
+            // new RNI18nPackage(),
+            new RNGoogleSigninPackage(),
+            // new MapsPackage(),
+            // new RNI18nPackage(),
             new RNFirebasePackage(),
             new PhotoViewPackage(),
             new LinearGradientPackage(),

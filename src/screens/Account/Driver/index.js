@@ -1,30 +1,38 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
+import firebase from 'react-native-firebase';
 import { Button, Text, View, List, Icon } from 'native-base';
 import Stars from 'react-native-stars';
 
 import AccountTemplate from '../accountTemplate';
-import Coupon from '../../../png/coupon.png'
-import Listitem from '../../../components/common/ListItem'
+import Coupon from '../../../png/coupon.png';
+import Listitem from '../../../components/common/ListItem';
 
 export default class Driver extends Component {
 
     state = {
-        rating: 1
+        rating: 3.5,
+        data: {}
+    }
+
+    componentDidMount() {
+        const { currentUser } = firebase.auth();
+        firebase.database().ref(`/users/${currentUser.uid}`)
+            .on('value', snapshot => this.setState({ data: snapshot.val() }));
     }
     onStarClick(nextValue, prevValue, name) {
         this.setState({ rating: nextValue });
     }
     render() {
         const { rating } = this.state;
-        const nav = this.props.navigation
+        const nav = this.props.navigation;
         return (
-            <AccountTemplate navigation={nav} name="حدد نوع السياره" >
+            <AccountTemplate navigation={nav} >
                 <View style={{ flex: 1, flexDirection: 'column' }}>
                     <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
-                        <Text style={{ textAlign: 'center', color: '#15588D', fontSize: 25 }}>Mohamed Awad</Text>
+                        <Text style={{ textAlign: 'center', color: '#15588D', fontSize: 25 }}>{this.state.data.displayName}</Text>
                         <Stars
-                            default={2.5}
+                            default={rating}
                             count={5}
                             half={true}
                             starSize={50}
@@ -32,7 +40,7 @@ export default class Driver extends Component {
                             emptyStar={<Icon type='MaterialCommunityIcons' name={'star-outline'} style={[styles.myStarStyle, styles.myEmptyStarStyle]} />}
                             halfStar={<Icon type='MaterialCommunityIcons' name={'star-half'} style={[styles.myStarStyle]} />}
                         />
-                        <Text style={{ textAlign: 'center', color: '#15588D', fontSize: 25 }}>سائق</Text>
+                        <Text style={{ textAlign: 'center', color: '#15588D', fontSize: 25 }}>{this.state.data.accountType}</Text>
                     </View>
                     <View style={{ flex: 1, flexDirection: 'column', width: '80%', alignSelf: 'center' }}>
                         <List>
@@ -43,7 +51,7 @@ export default class Driver extends Component {
                         </List>
                     </View>
                     <View style={{ flex: 1, flexDirection: 'row', width: '40%', alignSelf: 'center', marginTop: 20 }}>
-                        <Button rounded block style={{ flex: 1, backgroundColor:'#266A8F' }}>
+                        <Button rounded block style={{ flex: 1, backgroundColor: '#266A8F' }}>
                             <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
                                 دعوه صديق
                             </Text>

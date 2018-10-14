@@ -1,39 +1,43 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import {Root} from "native-base";
-import { createStore } from 'redux';
-import { currentUser } from './../reducers';
-import { createSwitchNavigator,createStackNavigator } from 'react-navigation';
-import AuthLoadingScreen from './loading'
-import AuthStack from './authNavigation'
-import DrawerNavigator from './DrawerNavigator'
-import Header2 from "../components/Header2";
+import ReduxThunk from 'redux-thunk';
+import { Root } from 'native-base';
+import { createStore, applyMiddleware } from 'redux';
+import { createStackNavigator } from 'react-navigation';
+import reducers from '../reducers';
+import AuthLoadingScreen from './loading';
+import AuthStack from './authNavigation';
+import DrawerNavigator from './DrawerNavigator';
+import UserAcc from '../screens/Account/User';
 
-const RootStack= createStackNavigator(
+const RootStack = createStackNavigator(
     {
         AuthLoading: AuthLoadingScreen,
-        App:{
-          screen:DrawerNavigator,
-        } ,
-        Auth:{
-          screen:AuthStack,
-        } ,
+        App: {
+            screen: DrawerNavigator,
+        },
+        Auth: {
+            screen: AuthStack,
+        },
+        UserAcc: {
+            screen: UserAcc
+        }
     },
     {
-      headerMode:'none',
-        initialRouteName: 'App',
+        headerMode: 'none',
+        initialRouteName: 'Auth',
     }
 );
 
-const store = createStore(currentUser);
+const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
 
 export default class RootNavigation extends React.Component {
     render() {
         return (
             <Root>
-                {/* <Provider store={store}> */}
-                    <RootStack/>
-                {/* </Provider> */}
+                <Provider store={store}>
+                    <RootStack />
+                </Provider>
             </Root>
         );
     }

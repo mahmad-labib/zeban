@@ -1,8 +1,17 @@
 import React, { Component } from 'react';
-import { Input, Item, View, Text } from 'native-base'
+import { Input, Item, View, Text } from 'native-base';
 
 
 export default class FormInput extends Component {
+
+  state = {
+    value: ''
+  }
+
+  componentDidMount() {
+    console.log(this.props);
+  }
+
   render() {
     return (
       <View style={{ flex: 1, flexDirection: 'column' }} >
@@ -11,7 +20,7 @@ export default class FormInput extends Component {
         </View>
         <Item>
           <View style={{ flexDirection: 'row' }}>
-            <Input placeholder='' style={{ borderWidth: 0.5, borderRadius: 12, borderColor: '#266A8F' }} />
+            <Input onChangeText={this.props.onChangeText} value={this.props.value} style={{ borderWidth: 0.5, borderRadius: 12, borderColor: '#266A8F' }} />
           </View>
         </Item>
       </View>

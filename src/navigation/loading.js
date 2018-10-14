@@ -1,37 +1,57 @@
 import React from 'react';
 import {
     ActivityIndicator,
-    AsyncStorage,
     StyleSheet,
     View,
 } from 'react-native';
-import axios from 'axios';
-import { SERVER_URL } from "../constants/config";
-import {connect} from "react-redux";
-import {setUser} from "../reducers";
+import firebase from 'react-native-firebase';
+import { GoogleSignin } from 'react-native-google-signin';
+// import axios from 'axios';
+// import { SERVER_URL } from "../constants/config";
+// import { connect } from "react-redux";
+// import { setUser } from "../reducers";
 
 class AuthLoadingScreen extends React.Component {
     constructor(props) {
         super(props);
-        this._bootstrapAsync();
+        this._isSignedIn();
     }
 
-    // Fetch the token from storage then navigate to our appropriate place
-    _bootstrapAsync = async () => {
-        const userToken = await AsyncStorage.getItem('token');
-        if(userToken){
-            return axios.post(SERVER_URL+'api/auth/me?token='+userToken).then(response => {
-                this.props.setUser(response.data);
-                this.props.navigation.navigate('App');
-            }).catch(error => {
-                // return AsyncStorage.removeItem('token').then(()=>{
-                this.props.navigation.navigate('Auth');
-                // });
-            })
-        }else{
-            this.props.navigation.navigate('Auth');
-        }
+    // componentDidMount() {
+    // GoogleSignin.isSignedIn()
+    //     .then(isSignedIn => {
+    //         if (isSignedIn) {
+    //             this.props.navigation.navigate('App');
+    //         }
+    //         this.props.navigation.navigate('Auth');
+    //     }
+    //     );
+    _isSignedIn = async () => {
+        const isSignedIn = await firebase.auth();
+        // const isSignedIn = await GoogleSignin;
+        console.log(isSignedIn.uid);
+        this.setState({ isLoginScreenPresented: !isSignedIn });
     };
+    // }
+
+
+
+    // Fetch the token from storage then navigate to our appropriate place
+    // _bootstrapAsync = async () => {
+    //     const userToken = await AsyncStorage.getItem('token');
+    //     if(userToken){
+    //         return axios.post(SERVER_URL+'api/auth/me?token='+userToken).then(response => {
+    //             this.props.setUser(response.data);
+    //             this.props.navigation.navigate('App');
+    //         }).catch(error => {
+    //             // return AsyncStorage.removeItem('token').then(()=>{
+    //             this.props.navigation.navigate('Auth');
+    //             // });
+    //         })
+    //     }else{
+    //         this.props.navigation.navigate('Auth');
+    //     }
+    // };
 
     // Render any loading content that you like here
     render() {
@@ -53,14 +73,11 @@ const styles = StyleSheet.create({
         padding: 10
     }
 });
-const mapStateToProps = ({ user }) => ({
-    user,
-});
+// const mapStateToProps = ({ user }) => ({
+//     user,
+// });
 
-const mapDispatchToProps = {
-    setUser
-};
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(AuthLoadingScreen);
+// const mapDispatchToProps = {
+//     setUser
+// };
+export default AuthLoadingScreen;

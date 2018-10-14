@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { GoogleSignin, statusCodes } from 'react-native-google-signin';
 import firebase from 'react-native-firebase';
+import { connect } from 'react-redux';
 import { View, Button, Text } from 'native-base';
 import AutoHeightImage from 'react-native-auto-height-image';
 import { Dimensions, TouchableOpacity, ImageBackground, } from 'react-native';
+import { CurrentUser } from '../../../actions';
 import SignBox from '../../../components/common/signBox';
 import SignTemplate from '../signTemplate';
 
@@ -13,28 +15,61 @@ import Zeban1 from '../../../png/Zeban1.png';
 import Sparkels from '../../../png/sparkels.png';
 import City from '../../../png/city.png';
 
-const { width, height } = Dimensions.get('window');
-
-export default class SignUp extends Component {
-    componentDidMount() {
-        const signIn = async () => {
-            try {
-                await GoogleSignin.hasPlayServices();
-                const userInfo = await GoogleSignin.signIn();
-                this.setState({ userInfo });
-            } catch (error) {
-                if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-                    // user cancelled the login flow
-                } else if (error.code === statusCodes.IN_PROGRESS) {
-                    // operation (f.e. sign in) is in progress already
-                } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-                    // play services not available or outdated
-                } else {
-                    // some other error happened
-                }
-            }
-        };
+const { width } = Dimensions.get('window');
+class SignUp extends Component {
+    state = {
+        data: {}
     }
+    componentDidMount() {
+        this.CurrentUser();
+    }
+
+    CurrentUser() {
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                const ref = firebase.database().ref(`/users/${user.uid}`);
+                ref.once('value')
+                    .then(snapshot => snapshot.val())
+                    .then((data) => {
+                        if (data) {
+                            console.log(data);
+                            this.props.navigation.navigate(`${data.accountType}`);
+                        } else {
+                            console.log('there is no data');
+                        }
+                    }
+                    );
+            }
+        });
+        console.log(firebase.auth().currentUser);
+    }
+
+    googleLogin() {
+        (GoogleSignin.configure())
+            .catch(
+                err => console.log(err)
+            )
+            .then(() => GoogleSignin.signIn())
+            .catch(
+                err => console.log(err)
+            )
+            .then(data => firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken))
+            .catch(
+                err => console.log(err)
+            )
+            .then(credential => firebase.auth().signInAndRetrieveDataWithCredential(credential))
+            .catch(
+                err => console.log(err)
+            )
+            .then(
+                () => {
+                    this.CurrentUser();
+                    this.props.navigation.navigate('AccountType');
+                }
+            );
+    }
+
+
     render() {
         const nav = this.props.navigation;
         return (
@@ -63,7 +98,7 @@ export default class SignUp extends Component {
                         <TouchableOpacity>
                             <SignBox icon="facebook-f" text="تسجيل الدخول بواسطه فيسبوك" />
                         </TouchableOpacity>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => this.googleLogin(this.props.navigation)}>
                             <SignBox icon="google" text="تسجيل الدخول بواسطه جوجل" />
                         </TouchableOpacity>
                         <TouchableOpacity>
@@ -84,3 +119,6 @@ export default class SignUp extends Component {
         );
     }
 }
+
+
+export default connect()(SignUp);

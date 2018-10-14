@@ -153,7 +153,7 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-i18n')
+    // compile project(':react-native-i18n')
     compile project(':react-native-firebase')
     compile project(':react-native-photo-view')
     compile project(':react-native-linear-gradient')
@@ -171,9 +171,9 @@ dependencies {
       exclude group: 'com.google.android.gms', module: 'play-services-maps'
     }
     implementation(project(":react-native-google-signin")){
-        exclude group: "com.google.android.gms" // very important
-    }
-    implementation 'com.google.android.gms:play-services-auth:16.0.0' // should be at least 15.0.0 to work with the most recent APIs
+    exclude group: "com.google.android.gms" // very important
+  }
+    implementation 'com.google.android.gms:play-services-auth:15.0.1' // should be at least 15.0.0 to work with the most recent APIs
 
   // RNFirebase required dependencies
   implementation "com.google.firebase:firebase-core:16.0.1"
@@ -206,15 +206,6 @@ dependencies {
 task copyDownloadableDepsToLibs(type: Copy) {
   from configurations.compile
   into 'libs'
-}
-
-ext {
-    // buildToolsVersion = "27.0.3"
-    // minSdkVersion = 19
-    // compileSdkVersion = 27
-    // targetSdkVersion = 27
-    // supportLibVersion = "27.1.1"
-    googlePlayServicesVersion = "15.0.1" // <-- this line here tell other modules to overwrite and use this instead of default
 }
 
 apply plugin: 'com.google.gms.google-services'

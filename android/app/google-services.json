@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "187517006613-gijm2j15ovtacrr98qv0u4d6bfs2uld3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fletchers.zebian",
+            "certificate_hash": "96ca343986569a3066d186c04237352c49f83841"
+          }
+        },
+        {
           "client_id": "187517006613-5heuj28noa7h16ocod188p0rhqu5db4n.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "187517006613-5heuj28noa7h16ocod188p0rhqu5db4n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

@@ -3,15 +3,15 @@ import React, { Component } from 'react';
 import { View, Form, Textarea, Text, Button } from 'native-base';
 import AppTemplate from '../appTemplate';
 import ListCard from '../../../components/common/card';
-import MapLocation from '../../../png/map-location.png'
-import Navigation from '../../../png/navigation.png'
-import Clock from '../../../png/clock.png'
-import Car from '../../../png/car0.png'
+import MapLocation from '../../../png/map-location.png';
+import Navigation from '../../../png/navigation.png';
+import Clock from '../../../png/clock.png';
+import Car from '../../../png/car.png';
 
 
 export default class OrderNow extends Component {
     render() {
-        const nav = this.props.navigation
+        const nav = this.props.navigation;
         return (
             <AppTemplate navigation={nav} name="اطلب الان">
                 <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>

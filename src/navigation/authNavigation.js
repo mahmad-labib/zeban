@@ -1,18 +1,15 @@
-import React from 'react';
 import { createStackNavigator } from 'react-navigation';
-import SignIn from '../screens/auth/SignIn';
-import SignUp from '../screens/auth/SignUp';
-import Forget from '../screens/auth/Forget';
+import SignUp from '../screens/SignForm/signUp';
+import SignIn from '../screens/SignForm/start';
 
 const AuthStack = createStackNavigator(
     {
-        SignIn: SignIn,
-        SignUp: SignUp,
-        Forget:Forget
+        SignIn,
+        SignUp,
     },
     {
         headerMode: 'none',
-        initialRouteName: 'SignIn',
+        initialRouteName: 'SignUp',
     }
 );
 export default AuthStack;
