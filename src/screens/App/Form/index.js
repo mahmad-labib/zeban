@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import firebase from 'react-native-firebase';
 import { Form, View, Button, Text, DatePicker } from 'native-base';
 import { connect } from 'react-redux';
 import { FormAction } from '../../../actions';

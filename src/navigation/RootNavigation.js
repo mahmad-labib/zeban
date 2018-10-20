@@ -9,6 +9,7 @@ import AuthLoadingScreen from './loading';
 import AuthStack from './authNavigation';
 import DrawerNavigator from './DrawerNavigator';
 import UserAcc from '../screens/Account/User';
+import NavigatorService from './services/navigator';
 
 const RootStack = createStackNavigator(
     {
@@ -36,7 +37,11 @@ export default class RootNavigation extends React.Component {
         return (
             <Root>
                 <Provider store={store}>
-                    <RootStack />
+                    <RootStack
+                        ref={navigatorRef => {
+                            NavigatorService.setContainer(navigatorRef);
+                          }}
+                    />
                 </Provider>
             </Root>
         );

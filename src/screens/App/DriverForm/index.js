@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Form, Text, Button, Icon, View, DatePicker } from 'native-base';
-import firebase from 'react-native-firebase';
 import { connect } from 'react-redux';
-import { TouchableWithoutFeedback } from 'react-native';
-import { FormAction } from '../../../actions';
+import { TouchableWithoutFeedback, ActivityIndicator } from 'react-native';
+import ImagePicker from 'react-native-image-picker';
+import { FormAction, UploadImage } from '../../../actions';
 import AppTemplate from '../appTemplate';
 import FormInput from '../../../components/common/input';
 import Square from '../../../components/common/square';
@@ -12,7 +12,6 @@ import CarSelected from '../../../png/car_selected.png';
 import PickupSelected from '../../../png/pickup-selected.png';
 import Car from '../../../png/car.png';
 import Pickup from '../../../png/pickup-car.png';
-
 
 class DriverForm extends Component {
   state = {
@@ -23,14 +22,17 @@ class DriverForm extends Component {
     pickupShadow: false,
     sedanShadow: false,
     sedanImg: Car,
-    pickupImg: Pickup
+    pickupImg: Pickup,
+    uri: null,
+    imageName: null,
+    licence: false,
+    carImg: false
   }
 
-  Submit(navigation) {
+  Submit(navigate) {
     const { displayName, number, chosenDate, carType } = this.state;
     const { accountType } = this.props;
-    this.props.FormAction({ displayName, number, chosenDate, accountType, carType });
-    navigation.navigate('Policy');
+    this.props.FormAction({ displayName, number, chosenDate, accountType, carType, navigate });
   }
 
   Sedan() {
@@ -41,6 +43,38 @@ class DriverForm extends Component {
   Pickup() {
     this.setState({ sedanImg: Car, pickupImg: PickupSelected, sedanShadow: false, pickupShadow: true, carType: 'Pickup' });
     console.log(this.state);
+  }
+
+  pickImage(imageName) {
+    imageName === 'licence' ? this.setState({ licence: imageName }) : this.setState({ carImg: imageName });
+    console.log(this.state.carImg);
+    ImagePicker.launchImageLibrary({}, response => {
+      const { uri } = response;
+      this.props.UploadImage({ uri, imageName });
+    });
+  }
+
+  BtnVerf() {
+    return this.props.licence === true && this.props.carImg === true;
+  }
+
+  LiceneceBtnIcon() {
+    if (this.props.licence) {
+      return <Icon type="FontAwesome" name='check' />;
+    }
+    if (this.state.licence) {
+      return <ActivityIndicator size="small" color="#0000ff" />;
+    }
+    return <Icon name='add' />;
+  }
+
+  BtnIcon() {
+    if (this.props.carImg) {
+      return <ActivityIndicator size="small" color="#0000ff" />;
+    } if (this.state.carImg) {
+      return <Icon name='add' />;
+    }
+    return <Icon type="FontAwesome" name='check' />;
   }
 
   render() {
@@ -83,20 +117,20 @@ class DriverForm extends Component {
           </View>
         </View>
         <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }} >
-          <Button iconLeft style={styles.btnBot}>
-            <Icon name='add' />
+          <Button iconLeft style={styles.btnBot} onPress={() => this.pickImage('licence')} >
+            {this.LiceneceBtnIcon()}
             <Text style={{ fontSize: 20, fontWeight: 'bold' }}>ارفق صوره الرخصه</Text>
           </Button>
-          <Button iconLeft style={styles.btnBot}>
-            <Icon name='add' />
+          <Button iconLeft style={styles.btnBot} onPress={() => this.pickImage('carImg')}>
+            {this.LiceneceBtnIcon()}
             <Text style={{ fontSize: 20, fontWeight: 'bold' }}>ارفق صوره السياره</Text>
           </Button>
-          <Button iconLeft style={styles.btnBot} onPress={() => this.Submit(this.props.navigation)}>
-            {/* <Icon name='add' /> */}
+          <Button iconLeft style={this.BtnVerf() ? styles.btnBot : styles.btn} onPress={() => this.Submit(nav.navigate)}>
             <Text style={{ fontSize: 20, fontWeight: 'bold' }}>تسجيل</Text>
           </Button>
         </View>
-      </AppTemplate>
+        {console.log(this.state.uploadURL)}
+      </AppTemplate >
     );
   }
 }
@@ -109,13 +143,19 @@ const styles = {
     alignSelf: 'center',
     paddingRight: '10%',
     paddingLeft: '10%',
+  },
+  btn: {
+    marginBottom: 10,
+    borderRadius: 20,
+    alignSelf: 'center',
+    paddingRight: '10%',
+    paddingLeft: '10%',
   }
 };
 
 const mapStateToProps = (state) => {
-  const { accountType } = state.auth;
-
-  return { accountType };
+  const { accountType, BtnVisible, licence, carImg, navigate } = state.auth;
+  return { accountType, BtnVisible, licence, carImg, navigate };
 };
 
-export default connect(mapStateToProps, { FormAction })(DriverForm);
+export default connect(mapStateToProps, { FormAction, UploadImage })(DriverForm);

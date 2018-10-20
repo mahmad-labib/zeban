@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
-import firebase from 'react-native-firebase';
+import { connect } from 'react-redux';
 import { Button, Text, View, List } from 'native-base';
+import { FetchUserData } from '../../../actions';
 import AccountTemplate from '../accountTemplate';
 
 import Coupon from '../../../png/coupon.png';
 import Listitem from '../../../components/common/ListItem';
 
-export default class UserAccount extends Component {
+class UserAccount extends Component {
     state = {
         data: {}
     }
     componentDidMount() {
-        const { currentUser } = firebase.auth();
-        firebase.database().ref(`/users/${currentUser.uid}`)
-            .on('value', snapshot => this.setState({ data: snapshot.val() }));
+        this.props.FetchUserData();
     }
     render() {
         const nav = this.props.navigation;
@@ -21,7 +20,7 @@ export default class UserAccount extends Component {
             <AccountTemplate navigation={nav}>
                 <View style={{ flex: 1, flexDirection: 'column' }}>
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
-                        <Text style={{ textAlign: 'center', color: '#15588D', fontSize: 25 }}>{this.state.data.displayName}</Text>
+                        <Text style={{ textAlign: 'center', color: '#15588D', fontSize: 25 }}>{this.props.UserData.displayName}</Text>
                     </View>
                     <View style={{ flex: 1, flexDirection: 'column', width: '80%', alignSelf: 'center' }}>
                         <List>
@@ -44,6 +43,9 @@ export default class UserAccount extends Component {
     }
 }
 
-const styles = {
+const mapStateToProps = (state) => {
+    const { UserData } = state.auth;
+    return { UserData };
+};
 
-}
+export default connect(mapStateToProps, { FetchUserData })(UserAccount);

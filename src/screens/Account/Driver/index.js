@@ -1,28 +1,29 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import firebase from 'react-native-firebase';
+import { connect } from 'react-redux';
 import { Button, Text, View, List, Icon } from 'native-base';
 import Stars from 'react-native-stars';
+import { FetchUserData } from '../../../actions';
 
 import AccountTemplate from '../accountTemplate';
 import Coupon from '../../../png/coupon.png';
 import Listitem from '../../../components/common/ListItem';
 
-export default class Driver extends Component {
-
+class Driver extends Component {
     state = {
         rating: 3.5,
         data: {}
     }
 
     componentDidMount() {
-        const { currentUser } = firebase.auth();
-        firebase.database().ref(`/users/${currentUser.uid}`)
-            .on('value', snapshot => this.setState({ data: snapshot.val() }));
+        this.props.FetchUserData();
     }
+
     onStarClick(nextValue, prevValue, name) {
         this.setState({ rating: nextValue });
     }
+
     render() {
         const { rating } = this.state;
         const nav = this.props.navigation;
@@ -30,7 +31,7 @@ export default class Driver extends Component {
             <AccountTemplate navigation={nav} >
                 <View style={{ flex: 1, flexDirection: 'column' }}>
                     <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
-                        <Text style={{ textAlign: 'center', color: '#15588D', fontSize: 25 }}>{this.state.data.displayName}</Text>
+                        <Text style={{ textAlign: 'center', color: '#15588D', fontSize: 25 }}>{this.props.UserData.displayName}</Text>
                         <Stars
                             default={rating}
                             count={5}
@@ -40,7 +41,7 @@ export default class Driver extends Component {
                             emptyStar={<Icon type='MaterialCommunityIcons' name={'star-outline'} style={[styles.myStarStyle, styles.myEmptyStarStyle]} />}
                             halfStar={<Icon type='MaterialCommunityIcons' name={'star-half'} style={[styles.myStarStyle]} />}
                         />
-                        <Text style={{ textAlign: 'center', color: '#15588D', fontSize: 25 }}>{this.state.data.accountType}</Text>
+                        <Text style={{ textAlign: 'center', color: '#15588D', fontSize: 25 }}>{this.props.UserData.accountType}</Text>
                     </View>
                     <View style={{ flex: 1, flexDirection: 'column', width: '80%', alignSelf: 'center' }}>
                         <List>
@@ -81,3 +82,11 @@ const styles = StyleSheet.create({
         color: '#FAC819',
     }
 });
+
+
+const mapStateToProps = (state) => {
+    const { UserData } = state.auth;
+    return { UserData };
+};
+
+export default connect(mapStateToProps, { FetchUserData })(Driver);

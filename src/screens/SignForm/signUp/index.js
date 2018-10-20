@@ -4,8 +4,8 @@ import firebase from 'react-native-firebase';
 import { connect } from 'react-redux';
 import { View, Button, Text } from 'native-base';
 import AutoHeightImage from 'react-native-auto-height-image';
-import { Dimensions, TouchableOpacity, ImageBackground, } from 'react-native';
-import { CurrentUser } from '../../../actions';
+import { Dimensions, TouchableOpacity, ImageBackground, ActivityIndicator } from 'react-native';
+// import { CurrentUser } from '../../../actions';
 import SignBox from '../../../components/common/signBox';
 import SignTemplate from '../signTemplate';
 
@@ -16,15 +16,17 @@ import Sparkels from '../../../png/sparkels.png';
 import City from '../../../png/city.png';
 
 const { width } = Dimensions.get('window');
+
 class SignUp extends Component {
     state = {
-        data: {}
+        loading: true
     }
     componentDidMount() {
-        this.CurrentUser();
+        const instant = 'instant';
+        this.CurrentUser(instant);
     }
 
-    CurrentUser() {
+    CurrentUser(instant) {
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 const ref = firebase.database().ref(`/users/${user.uid}`);
@@ -32,16 +34,19 @@ class SignUp extends Component {
                     .then(snapshot => snapshot.val())
                     .then((data) => {
                         if (data) {
-                            console.log(data);
+                            console.log(`instantdata${data}`);
                             this.props.navigation.navigate(`${data.accountType}`);
                         } else {
-                            console.log('there is no data');
+                            if (instant) {
+                                return this.setState({ loading: false });
+                            }
+                            this.props.navigation.navigate('AccountType');
                         }
                     }
                     );
             }
         });
-        console.log(firebase.auth().currentUser);
+        return this.setState({ loading: false });
     }
 
     googleLogin() {
@@ -64,11 +69,32 @@ class SignUp extends Component {
             .then(
                 () => {
                     this.CurrentUser();
-                    this.props.navigation.navigate('AccountType');
                 }
             );
     }
 
+    Loading() {
+        if (this.state.loading) {
+            return (
+                <View style={{ flex: 1, flexDirection: 'column', width: '80%', alignSelf: 'center' }}>
+                    <ActivityIndicator size="large" color="#0000ff" />
+                </View>
+            );
+        }
+        return (
+            <View style={{ flex: 1, flexDirection: 'column', width: '80%', alignSelf: 'center' }}>
+                <TouchableOpacity>
+                    <SignBox icon="facebook-f" text="تسجيل الدخول بواسطه فيسبوك" />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.googleLogin(this.props.navigation)}>
+                    <SignBox icon="google" text="تسجيل الدخول بواسطه جوجل" />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <SignBox icon="mobile" text="تسجيل الدخول بواسطه الجوال" />
+                </TouchableOpacity>
+            </View>
+        );
+    }
 
     render() {
         const nav = this.props.navigation;
@@ -94,17 +120,7 @@ class SignUp extends Component {
                             style={{ alignSelf: 'center' }}
                         />
                     </View>
-                    <View style={{ flex: 1, flexDirection: 'column', width: '80%', alignSelf: 'center' }}>
-                        <TouchableOpacity>
-                            <SignBox icon="facebook-f" text="تسجيل الدخول بواسطه فيسبوك" />
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => this.googleLogin(this.props.navigation)}>
-                            <SignBox icon="google" text="تسجيل الدخول بواسطه جوجل" />
-                        </TouchableOpacity>
-                        <TouchableOpacity>
-                            <SignBox icon="mobile" text="تسجيل الدخول بواسطه الجوال" />
-                        </TouchableOpacity>
-                    </View>
+                    {this.Loading()}
                 </View>
                 <ImageBackground source={City} style={{ width, height: 190 }}>
                     <Button bordered style={{ borderColor: '#2AA2B9', backgroundColor: 'transparent', borderRadius: 12, alignSelf: 'center', }}>
