@@ -5,7 +5,8 @@ import firebase from 'react-native-firebase';
 import { connect } from 'react-redux';
 import { View, Button, Text } from 'native-base';
 import AutoHeightImage from 'react-native-auto-height-image';
-import { Dimensions, TouchableOpacity, ImageBackground, ActivityIndicator } from 'react-native';
+import { Dimensions, TouchableOpacity, ImageBackground, ActivityIndicator, TextInput } from 'react-native';
+import Modal from 'react-native-modal';
 // import { CurrentUser } from '../../../actions';
 import SignBox from '../../../components/common/signBox';
 import SignTemplate from '../signTemplate';
@@ -20,11 +21,51 @@ const { width } = Dimensions.get('window');
 
 class SignUp extends Component {
     state = {
-        loading: true
+        loading: true,
+        user: null,
+        message: '',
+        codeInput: '',
+        phoneNumber: '+44',
+        confirmResult: null,
+        isModalVisible: false,
+        facebook: ''
     }
     componentDidMount() {
         const instant = 'instant';
         this.CurrentUser(instant);
+        this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                this.setState({ user: user.toJSON() });
+            } else {
+                // User has been signed out, reset the state
+                this.setState({
+                    user: null,
+                    message: '',
+                    codeInput: '',
+                    phoneNumber: '+20',
+                    confirmResult: null,
+                });
+            }
+        });
+    }
+
+    componentWillUnmount() {
+        if (this.unsubscribe) this.unsubscribe();
+    }
+
+    toggleModal = () =>
+        this.setState({ isModalVisible: !this.state.isModalVisible });
+
+    confirmCode() {
+        const { codeInput, confirmResult } = this.state;
+
+        if (confirmResult && codeInput.length) {
+            confirmResult.confirm(codeInput)
+                .then((user) => {
+                    this.setState({ message: 'Code Confirmed!' });
+                })
+                .catch(error => this.setState({ message: `Code Confirm Error: ${error.message}` }));
+        }
     }
 
     CurrentUser(instant) {
@@ -47,7 +88,6 @@ class SignUp extends Component {
                     );
             }
         });
-        return this.setState({ loading: false });
     }
 
 
@@ -57,7 +97,8 @@ class SignUp extends Component {
             .then(data => firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken))
             .then(credential => firebase.auth().signInAndRetrieveDataWithCredential(credential))
             .catch(
-                err => console.log(err)
+                err => console.log(err),
+                this.setState({ loading: false })
             )
             .then(
                 () => {
@@ -71,9 +112,11 @@ class SignUp extends Component {
             .then(
                 result => {
                     if (result.isCancelled) {
-                        throw new Error('User cancelled request');
+                        // throw new Error('User cancelled request');
+                        return this.setState({ loading: false, facebook: 'cancelled' });
                     }
                     console.log(`Login success with permissions: ${result.grantedPermissions.toString()}`);
+                    this.setState({ facebook: 'success' });
                 }
             )
             .then(() => AccessToken.getCurrentAccessToken())
@@ -90,9 +133,20 @@ class SignUp extends Component {
             .catch(err => console.log(err))
             .then(
                 () => {
-                    this.CurrentUser();
+                    if (this.state.facebook === 'success') {
+                        this.CurrentUser();
+                    }
                 }
             );
+    }
+
+    PhoneSignIn() {
+        const { phoneNumber } = this.state;
+        this.setState({ message: 'Sending code ...' });
+
+        firebase.auth().signInWithPhoneNumber(phoneNumber)
+            .then(confirmResult => this.setState({ confirmResult, message: 'Code has been sent!' }))
+            .catch(error => this.setState({ message: `Sign In With Phone Number Error: ${error.message}` }));
     }
 
     Loading() {
@@ -105,23 +159,87 @@ class SignUp extends Component {
         }
         return (
             <View style={{ flex: 1, flexDirection: 'column', width: '80%', alignSelf: 'center' }}>
-                <TouchableOpacity onPress={() => this.facebookLogin()}>
+                <TouchableOpacity onPress={() => { this.facebookLogin(); this.setState({ loading: true }); }}>
                     <SignBox icon="facebook-f" text="تسجيل الدخول بواسطه فيسبوك" />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.googleLogin()}>
+                <TouchableOpacity onPress={() => { this.googleLogin(); this.setState({ loading: true }); }}>
                     <SignBox icon="google" text="تسجيل الدخول بواسطه جوجل" />
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={this.toggleModal} >
                     <SignBox icon="mobile" text="تسجيل الدخول بواسطه الجوال" />
                 </TouchableOpacity>
+            </View >
+        );
+    }
+
+    renderVerificationCodeInput() {
+        const { codeInput } = this.state;
+
+        return (
+            <View style={{ marginTop: 25, padding: 25 }}>
+                <Text>Enter verification code below:</Text>
+                <TextInput
+                    autoFocus
+                    style={{ height: 40, marginTop: 15, marginBottom: 15 }}
+                    onChangeText={value => this.setState({ codeInput: value })}
+                    placeholder={'Code ... '}
+                    value={codeInput}
+                />
+                <Button onPress={() => this.confirmCode()} >
+                    <Text>
+                        Confirm Code
+                    </Text>
+                </Button>
+            </View>
+        );
+    }
+    renderPhoneNumberInput() {
+        const { phoneNumber } = this.state;
+
+        return (
+            <View style={{ padding: 25 }}>
+                <Text>Enter phone number:</Text>
+                <TextInput
+                    autoFocus
+                    style={{ height: 40, marginTop: 15, marginBottom: 15 }}
+                    onChangeText={value => this.setState({ phoneNumber: value })}
+                    placeholder={'Phone number ... '}
+                    value={phoneNumber}
+                />
+                <Button onPress={() => this.PhoneSignIn()} >
+                    <Text>
+                        SignIn
+                    </Text>
+                </Button>
             </View>
         );
     }
 
+    renderMessage() {
+        const { message } = this.state;
+
+        if (!message.length) return null;
+
+        return (
+            <Text style={{ padding: 5, backgroundColor: '#000', color: '#fff' }}>{message}</Text>
+        );
+    }
+
+
     render() {
         const nav = this.props.navigation;
+        const { user, confirmResult } = this.state;
         return (
             <SignTemplate navigation={nav}>
+                <Modal isVisible={this.state.isModalVisible} onBackdropPress={() => this.setState({ isModalVisible: false })}>
+                    <View style={{ marginTop: 25, padding: 25, backgroundColor: 'white' }}>
+                        {!user && !confirmResult && this.renderPhoneNumberInput()}
+
+                        {this.renderMessage()}
+
+                        {!user && confirmResult && this.renderVerificationCodeInput()}
+                    </View>
+                </Modal>
                 <View style={{ flex: 1, height: 100, justifyContent: 'center', flexDirection: 'row' }}>
                     <AutoHeightImage
                         width={width}

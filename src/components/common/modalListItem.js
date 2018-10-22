@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Text, View } from "react-native";
-import { ListItem, CheckBox } from 'native-base'
+import { ListItem, CheckBox } from 'native-base';
 
 export default class ModalListItem extends Component {
     state = {

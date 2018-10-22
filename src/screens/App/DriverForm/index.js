@@ -70,11 +70,11 @@ class DriverForm extends Component {
 
   BtnIcon() {
     if (this.props.carImg) {
-      return <ActivityIndicator size="small" color="#0000ff" />;
+      return <Icon type="FontAwesome" name='check' />;
     } if (this.state.carImg) {
-      return <Icon name='add' />;
+      return <ActivityIndicator size="small" color="#0000ff" />;
     }
-    return <Icon type="FontAwesome" name='check' />;
+    return <Icon name='add' />;
   }
 
   render() {
@@ -122,10 +122,10 @@ class DriverForm extends Component {
             <Text style={{ fontSize: 20, fontWeight: 'bold' }}>ارفق صوره الرخصه</Text>
           </Button>
           <Button iconLeft style={styles.btnBot} onPress={() => this.pickImage('carImg')}>
-            {this.LiceneceBtnIcon()}
+            {this.BtnIcon()}
             <Text style={{ fontSize: 20, fontWeight: 'bold' }}>ارفق صوره السياره</Text>
           </Button>
-          <Button iconLeft style={this.BtnVerf() ? styles.btnBot : styles.btn} onPress={() => this.Submit(nav.navigate)}>
+          <Button disabled={this.BtnVerf()} iconLeft style={this.BtnVerf() ? styles.btnBot : styles.btn} onPress={() => this.Submit(nav.navigate)}>
             <Text style={{ fontSize: 20, fontWeight: 'bold' }}>تسجيل</Text>
           </Button>
         </View>

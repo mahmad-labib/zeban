@@ -14,57 +14,57 @@ export default class ModalComponent extends Component {
 
     render() {
         return (
-                <View style={{ flex: 1 }}>
-                    <TouchableOpacity onPress={this._toggleModal}>
-                        <Text>Show Modal</Text>
-                    </TouchableOpacity>
-                    <Modal
-                        isVisible={this.state.isModalVisible}
-                        onBackdropPress={() => this.setState({ isModalVisible: false })}
-                    >
-                        <View style={{ height: '60%', width: '90%', backgroundColor: 'white', alignSelf: 'center', justifyContent: 'space-evenly', flexDirection: 'column' }}>
-                            <View style={{ flex: .1, flexDirection: 'row', alignSelf: 'center', justifyContent: 'center' }}>
-                                <Text style={{ fontSize: 25, color: '#236C8E', textAlign: 'center', fontWeight: 'bold' }}>
-                                    سبب الغاء الطلب
+            <View style={{ flex: 1 }}>
+                <TouchableOpacity onPress={this._toggleModal}>
+                    <Text>Show Modal</Text>
+                </TouchableOpacity>
+                <Modal
+                    isVisible={this.state.isModalVisible}
+                    onBackdropPress={() => this.setState({ isModalVisible: false })}
+                >
+                    <View style={{ height: '60%', width: '90%', backgroundColor: 'white', alignSelf: 'center', justifyContent: 'space-evenly', flexDirection: 'column' }}>
+                        <View style={{ flex: .1, flexDirection: 'row', alignSelf: 'center', justifyContent: 'center' }}>
+                            <Text style={{ fontSize: 25, color: '#236C8E', textAlign: 'center', fontWeight: 'bold' }}>
+                                سبب الغاء الطلب
                                 </Text>
-                            </View>
-                            <View style={{ flex: .5, flexDirection: 'row', alignSelf: 'center', justifyContent: 'center', }}>
-                                <View style={{ flex: 1, flexDirection: 'column', width: '90%' }}>
-                                    <ModalListItem />
-                                    <ListItem>
-                                        <View style={{ flex: 4, flexDirection: 'column' }}>
-                                            <Text style={styles.text}>تاخر السائق في الاستلام</Text>
-                                        </View>
-                                        <View style={{ flex: 0.5, flexDirection: 'column', alignItems: 'flex-end' }}>
-                                            <CheckBox checked={false} />
-                                        </View>
-                                    </ListItem>
-                                    <ListItem>
-                                        <View style={{ flex: 4, flexDirection: 'column' }}>
-                                            <Text style={styles.text}>لم اعد اريد التوصيله</Text>
-                                        </View>
-                                        <View style={{ flex: 0.5, flexDirection: 'column', alignItems: 'flex-end' }}>
-                                            <CheckBox checked={false} />
-                                        </View>
-                                    </ListItem>
-                                    <ListItem>
-                                        <View style={{ flex: 4, flexDirection: 'column' }}>
-                                            <Text style={styles.text}>اخري</Text>
-                                        </View>
-                                        <View style={{ flex: .5, flexDirection: 'column', alignItems: 'flex-end' }}>
-                                            <CheckBox checked={false} />
-                                        </View>
-                                    </ListItem>
-                                </View>
-                            </View>
-                            <View style={{ flex: .2, flexDirection: 'row', width: '80%', justifyContent: 'center', alignSelf: 'center' }}>
-                                <Button rounded block onPress={this._toggleModal} style={{ flex: 1, alignSelf: 'center', backgroundColor: '#15588D' }}>
-                                    <Text style={{ color: 'white', fontSize: 25, }}>الغاء الطلب</Text>
-                                </Button>
+                        </View>
+                        <View style={{ flex: 0.5, flexDirection: 'row', alignSelf: 'center', justifyContent: 'center', }}>
+                            <View style={{ flex: 1, flexDirection: 'column', width: '90%' }}>
+                                <ModalListItem />
+                                <ListItem>
+                                    <View style={{ flex: 4, flexDirection: 'column' }}>
+                                        <Text style={styles.text}>تاخر السائق في الاستلام</Text>
+                                    </View>
+                                    <View style={{ flex: 0.5, flexDirection: 'column', alignItems: 'flex-end' }}>
+                                        <CheckBox checked={false} />
+                                    </View>
+                                </ListItem>
+                                <ListItem>
+                                    <View style={{ flex: 4, flexDirection: 'column' }}>
+                                        <Text style={styles.text}>لم اعد اريد التوصيله</Text>
+                                    </View>
+                                    <View style={{ flex: 0.5, flexDirection: 'column', alignItems: 'flex-end' }}>
+                                        <CheckBox checked={false} />
+                                    </View>
+                                </ListItem>
+                                <ListItem>
+                                    <View style={{ flex: 4, flexDirection: 'column' }}>
+                                        <Text style={styles.text}>اخري</Text>
+                                    </View>
+                                    <View style={{ flex: 0.5, flexDirection: 'column', alignItems: 'flex-end' }}>
+                                        <CheckBox checked={false} />
+                                    </View>
+                                </ListItem>
                             </View>
                         </View>
-                    </Modal>
-                </View>
+                        <View style={{ flex: 0.2, flexDirection: 'row', width: '80%', justifyContent: 'center', alignSelf: 'center' }}>
+                            <Button rounded block onPress={this._toggleModal} style={{ flex: 1, alignSelf: 'center', backgroundColor: '#15588D' }}>
+                                <Text style={{ color: 'white', fontSize: 25, }}>الغاء الطلب</Text>
+                            </Button>
+                        </View>
+                    </View>
+                </Modal>
+            </View>
         );
     }
 }
