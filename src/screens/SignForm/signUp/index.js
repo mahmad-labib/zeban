@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { GoogleSignin, statusCodes } from 'react-native-google-signin';
+import { AccessToken, LoginManager } from 'react-native-fbsdk';
 import firebase from 'react-native-firebase';
 import { connect } from 'react-redux';
 import { View, Button, Text } from 'native-base';
@@ -49,23 +50,44 @@ class SignUp extends Component {
         return this.setState({ loading: false });
     }
 
+
     googleLogin() {
         (GoogleSignin.configure())
-            .catch(
-                err => console.log(err)
-            )
             .then(() => GoogleSignin.signIn())
-            .catch(
-                err => console.log(err)
-            )
             .then(data => firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken))
-            .catch(
-                err => console.log(err)
-            )
             .then(credential => firebase.auth().signInAndRetrieveDataWithCredential(credential))
             .catch(
                 err => console.log(err)
             )
+            .then(
+                () => {
+                    this.CurrentUser();
+                }
+            );
+    }
+
+    facebookLogin() {
+        LoginManager.logInWithReadPermissions(['public_profile', 'email'])
+            .then(
+                result => {
+                    if (result.isCancelled) {
+                        throw new Error('User cancelled request');
+                    }
+                    console.log(`Login success with permissions: ${result.grantedPermissions.toString()}`);
+                }
+            )
+            .then(() => AccessToken.getCurrentAccessToken())
+            .then(
+                data => {
+                    if (!data) {
+                        throw new Error('Something went wrong obtaining the users access token');
+                    }
+                    return firebase.auth.FacebookAuthProvider.credential(data.accessToken);
+                }
+            )
+            .then(credential => firebase.auth().signInAndRetrieveDataWithCredential(credential))
+            .then(currentUser => console.info(JSON.stringify(currentUser.user.toJSON())))
+            .catch(err => console.log(err))
             .then(
                 () => {
                     this.CurrentUser();
@@ -83,10 +105,10 @@ class SignUp extends Component {
         }
         return (
             <View style={{ flex: 1, flexDirection: 'column', width: '80%', alignSelf: 'center' }}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => this.facebookLogin()}>
                     <SignBox icon="facebook-f" text="تسجيل الدخول بواسطه فيسبوك" />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.googleLogin(this.props.navigation)}>
+                <TouchableOpacity onPress={() => this.googleLogin()}>
                     <SignBox icon="google" text="تسجيل الدخول بواسطه جوجل" />
                 </TouchableOpacity>
                 <TouchableOpacity>

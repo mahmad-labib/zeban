@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+// import { options } from 'react-navigation';
 import { Header, Left, Button, Icon, Right, Body, Container, Content, Text, View } from 'native-base';
 import AutoHeightImage from 'react-native-auto-height-image';
 import { SignOutAction } from '../../actions';
@@ -47,7 +48,4 @@ export default class AccountTemplate extends Component {
             </Container>
         );
     }
-}
-
-const styles = {
 }

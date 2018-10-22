@@ -23,11 +23,10 @@ class UserForm extends Component {
     console.log(newDate);
   }
 
-  Submit(navigation) {
+  Submit(navigate) {
     const { displayName, number, chosenDate } = this.state;
     const { accountType } = this.props;
-    this.props.FormAction({ displayName, number, chosenDate, accountType });
-    (navigation.navigate('Policy'));
+    this.props.FormAction({ displayName, number, chosenDate, accountType, navigate });
   }
 
   render() {
@@ -54,7 +53,7 @@ class UserForm extends Component {
         </Form>
         <View style={{ flexDirection: 'column', alignSelf: 'center', height: 250, width: '50%', justifyContent: 'flex-end' }}>
           <Button rounded block style={{ backgroundColor: '#15588D', }}>
-            <Text style={{ fontSize: 20 }} onPress={() => this.Submit(nav)} >موافق</Text>
+            <Text style={{ fontSize: 20 }} onPress={() => this.Submit(nav.navigate)} >موافق</Text>
           </Button>
         </View>
       </AppTemplate>

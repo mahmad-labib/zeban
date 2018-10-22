@@ -1,5 +1,5 @@
 import React from 'react';
-import { createDrawerNavigator } from 'react-navigation';
+import { createDrawerNavigator, NavigationDrawerScreenOptions } from 'react-navigation';
 // import AppTabNavigator from './appTabNavigator'
 // import Loading from '../components/spinner'
 // import Header2 from "../components/Header2";
@@ -28,6 +28,7 @@ import StartScreen from '../screens/SignForm/start';
 import SignUp from '../screens/SignForm/signUp';
 import TimePicker from '../screens/App/picker';
 import Chat from '../screens/App/Chat';
+
 
 
 const DrawerNavigator = createDrawerNavigator(
@@ -137,6 +138,11 @@ const DrawerNavigator = createDrawerNavigator(
     {
         // drawerPosition: currentLocale == 'ar' ? 'left' : 'right',
         initialRouteName: 'SignUp',
+    },
+    {
+        cardStyle: {
+            backgroundColor: 'red'
+        }
     }
 );
 export default DrawerNavigator;

@@ -40,7 +40,7 @@ export default class RootNavigation extends React.Component {
                     <RootStack
                         ref={navigatorRef => {
                             NavigatorService.setContainer(navigatorRef);
-                          }}
+                        }}
                     />
                 </Provider>
             </Root>

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Zebian</string>
+    <string name="facebook_app_id">265997057388534</string>
+<string name="fb_login_protocol_scheme">fb265997057388534</string>
 </resources>
