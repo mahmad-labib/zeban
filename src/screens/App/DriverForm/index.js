@@ -125,7 +125,7 @@ class DriverForm extends Component {
             {this.BtnIcon()}
             <Text style={{ fontSize: 20, fontWeight: 'bold' }}>ارفق صوره السياره</Text>
           </Button>
-          <Button disabled={this.BtnVerf()} iconLeft style={this.BtnVerf() ? styles.btnBot : styles.btn} onPress={() => this.Submit(nav.navigate)}>
+          <Button disabled={!this.BtnVerf()} iconLeft style={this.BtnVerf() ? styles.btnBot : styles.btn} onPress={() => this.Submit(nav.navigate)}>
             <Text style={{ fontSize: 20, fontWeight: 'bold' }}>تسجيل</Text>
           </Button>
         </View>
