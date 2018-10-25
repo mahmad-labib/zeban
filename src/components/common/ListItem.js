@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { Image } from 'react-native';
-import { Left, Icon, Right, Text, ListItem, Form, Item, Picker, View, Switch, Button } from 'native-base';
+import { Image, Switch, TouchableOpacity } from 'react-native';
+import { Left, Icon, Right, Text, ListItem, Form, Item, Picker, View, Button } from 'native-base';
 
 export default class Listitem extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selected: this.props.Label
+            selected: this.props.Label,
+            btnState: null,
         };
     }
 
@@ -16,6 +17,12 @@ export default class Listitem extends Component {
             selected2: value
         });
     }
+    btnState() {
+        const btnState = this.state;
+        this.state.btnState ? this.setState({ btnState: false }) : this.setState({ btnState: true });
+        console.log(btnState);
+        // this.setState({ btnState: !btnState });
+    }
 
     IconRender() {
         if (this.props.Icon) {
@@ -23,23 +30,22 @@ export default class Listitem extends Component {
                 <Icon style={{ flex: 1 }}>
                     <Image source={this.props.Icon} />
                 </Icon>
-            )
-        } else (
-            null
-        )
+            );
+        }
+        return null;
     }
 
     Switch() {
-        if (this.props.Switch) {
-            return (<Switch value={this.props.Switch} />)
+        if (this.props.ShowSwitch) {
+            return <Switch value={this.props.btnState} onValueChange={this.props.onValueChange} />;
         }
     }
 
     Btn() {
         if (this.props.Btn) {
             return (
-                <Button rounded style={{  backgroundColor: '#266A8F',height:30 }}>
-                    <Text style={{fontSize:16, paddingHorizontal:10}}>
+                <Button rounded style={{ backgroundColor: '#266A8F', height: 30 }}>
+                    <Text style={{ fontSize: 16, paddingHorizontal: 10 }}>
                         اختيار
                     </Text>
                 </Button>
@@ -69,15 +75,13 @@ export default class Listitem extends Component {
                         </Item>
                     </Form>
                 </View>
-            )
-        } else {
-            null
+            );
         }
     }
 
     render() {
         return (
-            <ListItem selected>
+            <ListItem selected onPress={this.props.onPress}>
                 <Left style={{ flex: 1 }}>
                     {this.IconRender()}
                     {this.PickerBtn()}

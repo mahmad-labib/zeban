@@ -126,7 +126,7 @@ export default class TalabDetails extends Component {
               }}
               coordinate={this.state.coordinate} />
           </MapView>
-          <View style={{ position: 'absolute', top: 0, alignSelf: 'center',height:40, backgroundColor: 'rgba(135, 135, 135, 0.8)' }}>
+          <View style={{ position: 'absolute', top: 0, alignSelf: 'center', height: 40, backgroundColor: 'rgba(135, 135, 135, 0.8)' }}>
             <Text style={{ color: 'white', alignSelf: 'center', textAlign: 'center', width: '55%' }}>
               تتطلب خدمه ذيبان فزعه تكاليف اضافيه سيتم تفريغ مندوب بشكل خاص لتوصيل طلبك
             </Text>

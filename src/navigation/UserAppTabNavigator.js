@@ -18,7 +18,7 @@ import Shopping from '../png/shopping-cart.png';
 
 const AppTabNavigator = createBottomTabNavigator(
     {
-        Driver,
+        User,
         Offers,
         Talabaty,
         OrderNow,

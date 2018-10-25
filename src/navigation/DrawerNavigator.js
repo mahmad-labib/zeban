@@ -1,5 +1,5 @@
 import React from 'react';
-import { createDrawerNavigator, NavigationDrawerScreenOptions } from 'react-navigation';
+import { createDrawerNavigator, createStackNavigator } from 'react-navigation';
 // import AppTabNavigator from './appTabNavigator'
 // import Loading from '../components/spinner'
 // import Header2 from "../components/Header2";
@@ -30,8 +30,7 @@ import TimePicker from '../screens/App/picker';
 import Chat from '../screens/App/Chat';
 
 
-
-const DrawerNavigator = createDrawerNavigator(
+const StackNavigator = createStackNavigator(
     {
         AccountType:
         {
@@ -145,4 +144,4 @@ const DrawerNavigator = createDrawerNavigator(
         }
     }
 );
-export default DrawerNavigator;
+export default StackNavigator;

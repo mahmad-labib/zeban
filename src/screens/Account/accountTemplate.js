@@ -20,7 +20,7 @@ export default class AccountTemplate extends Component {
                             <Button transparent>
                                 <Icon type="FontAwesome" name='bell' />
                             </Button>
-                            <Button transparent>
+                            <Button transparent onPress={() => this.props.navigation.navigate('Settings')}>
                                 <Icon type="FontAwesome" name='cog' />
                             </Button>
                         </Left>

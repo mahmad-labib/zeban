@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-
+import { TouchableOpacity } from 'react-native';
 import { View, Form, Textarea, Text, Button } from 'native-base';
 import AppTemplate from '../appTemplate';
 import ListCard from '../../../components/common/card';
 import MapLocation from '../../../png/map-location.png';
 import Navigation from '../../../png/navigation.png';
 import Clock from '../../../png/clock.png';
-import Car from '../../../png/car.png';
+import CarSelected from '../../../png/car_selected.png';
 
 
 export default class OrderNow extends Component {
@@ -16,10 +16,19 @@ export default class OrderNow extends Component {
             <AppTemplate navigation={nav} name="اطلب الان">
                 <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
                     <View style={{ width: '90%', flexDirection: 'column' }}>
-                        <ListCard header={'حدد مكان الاستلام'} footer={'اختر موقع استلام الشحنه'} rightIcon={MapLocation} rightIconWidth={40} />
-                        <ListCard header={'حدد مكان التسليم'} footer={'اختر موقع تسليم الشحنه'} rightIcon={Navigation} rightIconWidth={40} />
-                        <ListCard header={'حددوقت التسليم'} footer={'اضغط هنا لاختيار وقت التسليم'} rightIcon={Clock} rightIconWidth={40} />
-                        <ListCard header={'حدد نوع السياره'} footer={'بيك أب - سيدان'} rightIcon={Car} rightIconWidth={40} />
+                        <TouchableOpacity onPress={() => nav.navigate('TalabDetails3')}>
+                            <ListCard header={'حدد مكان الاستلام'} footer={'اختر موقع استلام الشحنه'} rightIcon={MapLocation} rightIconWidth={40} />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => nav.navigate('TalabDetails2')}>
+                            <ListCard header={'حدد مكان التسليم'} footer={'اختر موقع تسليم الشحنه'} rightIcon={Navigation} rightIconWidth={40} />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => nav.navigate('TimePicker')}>
+                            <ListCard header={'حددوقت التسليم'} footer={'اضغط هنا لاختيار وقت التسليم'} rightIcon={Clock} rightIconWidth={40} />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => nav.navigate('CarType')}>
+                            <ListCard header={'حدد نوع السياره'} footer={'بيك أب - سيدان'} rightIcon={CarSelected} rightIconWidth={40} />
+                        </TouchableOpacity>
+
                     </View>
                 </View>
                 <View style={{ flexdirection: 'row' }}>
@@ -36,7 +45,7 @@ export default class OrderNow extends Component {
                         <Text style={{ fontSize: 25, textAlign: 'center' }}>اطلب الان !</Text>
                     </Button>
                 </View>
-            </AppTemplate>
+            </AppTemplate >
         );
     }
 }

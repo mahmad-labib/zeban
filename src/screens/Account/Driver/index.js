@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import firebase from 'react-native-firebase';
 import { connect } from 'react-redux';
 import { Button, Text, View, List, Icon } from 'native-base';
@@ -52,7 +52,7 @@ class Driver extends Component {
                         </List>
                     </View>
                     <View style={{ flex: 1, flexDirection: 'row', width: '40%', alignSelf: 'center', marginTop: 20 }}>
-                        <Button rounded block style={{ flex: 1, backgroundColor: '#266A8F' }}>
+                        <Button rounded block style={{ flex: 1, backgroundColor: '#266A8F' }} onPress={() => nav.navigate('Invite')}>
                             <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
                                 دعوه صديق
                             </Text>

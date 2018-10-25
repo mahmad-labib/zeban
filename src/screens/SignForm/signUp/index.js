@@ -77,15 +77,18 @@ class SignUp extends Component {
                     .then((data) => {
                         if (data) {
                             console.log(`instantdata${data}`);
-                            this.props.navigation.navigate(`${data.accountType}`);
+                            this.props.navigation.navigate(`${data.accountType}TabNavigator`);
                         } else {
                             if (instant) {
+                                console.log('instant');
                                 return this.setState({ loading: false });
                             }
                             this.props.navigation.navigate('AccountType');
                         }
                     }
                     );
+            } else {
+                this.setState({ loading: false });
             }
         });
     }
