@@ -18,6 +18,7 @@ import UserForm from '../screens/App/Form';
 import ReportForm from '../screens/App/reportForm';
 import Talabaty from '../screens/App/talbaty';
 import Complainings from '../screens/App/complainings';
+import Complaining from '../screens/App/complaining';
 import Policy from '../screens/App/Policy';
 import Invite from '../screens/App/Invite';
 import OrderNow from '../screens/App/orderNow';
@@ -75,6 +76,10 @@ const RootStack = createStackNavigator(
         Complainings:
         {
             screen: Complainings,
+        },
+        Complaining:
+        {
+            screen: Complaining,
         },
         Invite:
         {
@@ -148,7 +153,7 @@ const RootStack = createStackNavigator(
     },
     {
         headerMode: 'none',
-        initialRouteName: 'Auth',
+        initialRouteName: 'DriverTabNavigator',
     }
 );
 

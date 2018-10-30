@@ -12,6 +12,7 @@ import com.imagepicker.ImagePickerPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
+import com.arttitude360.reactnative.rngoogleplaces.RNGooglePlacesPackage;
 // import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import com.reactnative.photoview.PhotoViewPackage;
@@ -67,6 +68,7 @@ public class MainApplication extends Application implements ReactApplication {
             new ImagePickerPackage(),
             new RNFetchBlobPackage(),
             new RNGoogleSigninPackage(),
+            new RNGooglePlacesPackage(),
             // new RNI18nPackage(),
             new RNFirebasePackage(),
             new PhotoViewPackage(),

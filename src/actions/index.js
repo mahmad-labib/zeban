@@ -2,6 +2,7 @@ import { NavigationActions } from 'react-navigation';
 import firebase from 'react-native-firebase';
 import RNFetchBlob from 'react-native-fetch-blob';
 import NavigatorService from '../navigation/services/navigator';
+import RNGooglePlaces from 'react-native-google-places';
 
 const Blob = RNFetchBlob.polyfill.Blob;
 const fs = RNFetchBlob.fs;
@@ -91,3 +92,16 @@ export const UploadImage = ({ uri, imageName, mime = 'image/jpg' }) => {
     };
 };
 
+export const PlaceOfDelivery = (data) => {
+    return ({
+        type: 'PlaceOfDelivery',
+        payload: data
+    });
+};
+
+export const PlaceOfPickup = (data) => {
+    return ({
+        type: 'PlaceOfPickup',
+        payload: data
+    });
+};

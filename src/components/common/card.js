@@ -82,26 +82,33 @@ export default class ListCard extends Component {
     }
   }
 
+  RenderLeft() {
+    if (this.props.leftIconSrc || this.btn() || this.deliveryClock() || this.LeftText()) {
+      return (
+        <Left style={{ flex: 0.5 }} >
+          <Icon style={{ color: this.props.LeftIconColor }} >
+            <Image source={this.props.leftIconSrc} />
+          </Icon>
+          {this.btn()}
+          {this.deliveryClock()}
+          {this.LeftText()}
+        </Left>
+      );
+    }
+  }
 
   render() {
     return (
       <Card style={{ flex: 1, borderRadius: 5 }} >
         <CardItem style={{ borderRadius: 5 }}>
-          <Left style={{ flex: 0.5 }} >
-            <Icon style={{ color: this.props.LeftIconColor }} >
-              <Image source={this.props.leftIconSrc} />
-            </Icon>
-            {this.btn()}
-            {this.deliveryClock()}
-            {this.LeftText()}
-          </Left>
+          {this.RenderLeft()}
           <Right style={{ flex: 1, alignContent: 'flex-end' }}>
             <View style={{ flexDirection: 'row' }}>
               <Text style={{ color: '#266A8F', fontSize: 20, fontWeight: 'bold' }} >{this.props.header}</Text>
             </View>
             <View style={{ flexDirection: 'row' }}>
               <View style={{ flexDirection: 'column' }}>
-                <Text note style={{ color: '#707070', fontSize: 15, fontWeight: 'bold' }} >{this.props.footer}</Text>
+                <Text note style={{ color: '#707070', fontSize: 15, fontWeight: 'bold', textAlign: 'right' }} >{this.props.footer}</Text>
                 {this.StarsComponent()}
               </View>
               <View style={{ flexDirection: 'column' }}>

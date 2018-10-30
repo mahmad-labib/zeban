@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { TouchableOpacity } from 'react-native';
 import { View, Fab, Icon } from 'native-base';
 import AppTemplate from '../appTemplate';
 import ListCard from '../../../components/common/card';
@@ -10,12 +11,16 @@ export default class Complainings extends Component {
     render() {
         const nav = this.props.navigation
         return (
-            <AppTemplate navigation={nav} name="البيانات الشخصيه">
+            <AppTemplate navigation={nav} name="الشكاوي">
                 <View style={{ flex: 1 }} >
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
                         <View style={{ width: '90%', flexDirection: 'column' }}>
-                            <ListCard header={'شكوي بخصوص التسجيل'} footer={'لم يتم التسجيل ..الرجاء متابعه الموضوع'} />
-                            <ListCard header={'شكوي بخصوص التوصيل'} footer={'التوصيل يتاخر'} />
+                            <TouchableOpacity onPress={() => nav.navigate('Complaining')}>
+                                <ListCard header={'شكوي بخصوص التسجيل'} footer={'لم يتم التسجيل ..الرجاء متابعه الموضوع'} />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => nav.navigate('Complaining')}>
+                                <ListCard header={'شكوي بخصوص التوصيل'} footer={'التوصيل يتاخر'} />
+                            </TouchableOpacity>
                         </View>
                     </View>
                     <View style={{ flex: 3, flexDirection: 'row', height: 250 }}>

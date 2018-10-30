@@ -19,6 +19,10 @@ export default (state = INITIAL_STATE, action) => {
             break;
         case 'Image_Upload_Fail':
             return { ...state, imgName: action.payload.imageName, BtnVisible: true };
+        case 'PlaceOfDelivery':
+            return { ...state, DeliveryPlace: action.payload };
+        case 'PlaceOfPickup':
+            return { ...state, PickupPlace: action.payload };
         default:
             return state;
     }

@@ -30,7 +30,6 @@ const AppTabNavigator = createBottomTabNavigator(
                 let iconName;
                 if (routeName === 'Driver') {
                     iconName = UserIcon;
-                    console.log(navigation);
                 } else if (routeName === 'Offers') {
                     iconName = Ring;
                 }
@@ -45,11 +44,13 @@ const AppTabNavigator = createBottomTabNavigator(
                 // icon component from react-native-vector-icons
                 // <Icon name={iconName} type="Ionicons" size={23} color={tintColor} />;
                 return (
-                    <Icon size={23} color={tintColor} ><AutoHeightImage
-                        width={150}
-                        source={iconName}
-                        style={{ alignSelf: 'center' }}
-                    />
+                    <Icon size={23} color={tintColor} >
+                        <Image source={iconName} />
+                        {/* <AutoHeightImage
+                            width={150}
+                            source={iconName}
+                            style={{ alignSelf: 'center' }}
+                        /> */}
                     </Icon>
                 );
             },

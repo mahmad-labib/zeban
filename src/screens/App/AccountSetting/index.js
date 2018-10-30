@@ -56,9 +56,7 @@ export default class Settings extends Component {
                             </Right>
                         </ListItem>
                         <Listitem RightData='الشكاوي' onPress={() => nav.navigate('Complainings')} />
-                        <TouchableOpacity onPress={() => nav.navigate('Policy')}>
-                            <Listitem RightData='سياسه الخصوصيه' />
-                        </TouchableOpacity>
+                        <Listitem RightData='سياسه الخصوصيه' onPress={() => nav.navigate('Policy')} />
                     </List>
                 </View>
                 <Modal
