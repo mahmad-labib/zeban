@@ -105,3 +105,37 @@ export const PlaceOfPickup = (data) => {
         payload: data
     });
 };
+
+export const DeliveryCarType = (data, nav) => {
+    return (dispatch) => {
+        dispatch({
+            type: 'CarType',
+            payload: data
+        }, nav.goBack());
+    };
+};
+
+export const TimeOfDelivery = (data, nav) => {
+    return (dispatch) => {
+        dispatch({
+            type: 'TimeOfDelivery',
+            payload: data
+        }, nav.goBack());
+    };
+};
+
+export const CreateOrder = (data, nav) => {
+    const { currentUser } = firebase.auth();
+    const usersRef = firebase.database().ref('users');
+    return (dispatch) => {
+        usersRef.child(currentUser.uid).update({
+            Orders: {
+                data
+            }
+        })
+            .then(Data => dispatch(
+                { type: 'CreateOrder', payload: Data }, nav.navigate('Driver'))
+            )
+            .catch(err => console.log(err));
+    };
+};

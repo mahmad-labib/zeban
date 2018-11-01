@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import { View, Icon, Text, Card } from 'native-base';
+import { TimePickerAndroid } from 'react-native';
+import { View, Icon, Text, Card, Button } from 'native-base';
+import { connect } from 'react-redux';
 import AppTemplate from '../appTemplate';
+import { TimeOfDelivery } from '../../../actions';
 
 
-export default class TimePicker extends Component {
+class TimePicker extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -14,6 +17,19 @@ export default class TimePicker extends Component {
         this.Hours = this.Hours.bind(this);
         this.Minutes = this.Minutes.bind(this);
         this.Time = this.Time.bind(this);
+    }
+
+    componentDidMount() {
+        if (this.props.DeliveryTime) {
+            const { hour, minutes, Time } = this.props.DeliveryTime;
+            this.setState({
+                hour,
+                minutes,
+                Time
+            });
+        } else {
+            return null;
+        }
     }
 
     Hours(type) {
@@ -68,16 +84,40 @@ export default class TimePicker extends Component {
 
     }
 
+    async TimePicker() {
+        try {
+            const { action, hour, minute } = await TimePickerAndroid.open({
+                hour: 14,
+                minute: 0,
+                is24Hour: true, // Will display '2 PM'
+            });
+            if (action !== TimePickerAndroid.dismissedAction) {
+                // Selected hour (0-23), minute (0-59)
+                if (hour > 12) {
+                    this.setState({ hour: hour - 12, minutes: minute, Time: 'pm' });
+                } else if (hour === 0) {
+                    this.setState({ hour: 12, minutes: minute, Time: 'am' });
+                } else {
+                    this.setState({ hour, minutes: minute, Time: 'am' });
+                }
+            }
+        } catch ({ code, message }) {
+            console.warn('Cannot open time picker', message);
+        }
+    }
+
 
     render() {
         const nav = this.props.navigation;
         const plus = 'plus';
         const minus = 'minus';
+        const { minutes, hour, Time } = this.state;
+        const TimeDetails = { minutes, hour, Time };
         return (
             <AppTemplate navigation={nav} name="تحديد وقت التسليم">
                 <Card style={{ width: '90%', alignSelf: 'center', flexDirection: 'row', marginTop: 30 }}>
 
-                    <View style={{ flexDirection: 'column', flex: 1, alignSelf: 'center', justifyContent: "center" }}>
+                    <View style={{ flexDirection: 'column', flex: 1, alignSelf: 'center', justifyContent: 'center' }}>
                         <View style={{ flexDirection: 'row', flex: 1, alignSelf: 'center' }}>
                             <Icon onPress={() => this.Hours(plus)} type="FontAwesome" name="caret-up" style={{ color: '#2F7294' }} />
                         </View>
@@ -91,7 +131,7 @@ export default class TimePicker extends Component {
                         </View>
                     </View>
 
-                    <View style={{ flexDirection: 'column', flex: 1, alignSelf: 'center', justifyContent: "center" }}>
+                    <View style={{ flexDirection: 'column', flex: 1, alignSelf: 'center', justifyContent: 'center' }}>
                         <View style={{ flexDirection: 'row', flex: 1, alignSelf: 'center' }}>
                             <Icon style={{ color: '#2F7294' }} onPress={() => this.Minutes(plus)} type="FontAwesome" name="caret-up" />
                         </View>
@@ -105,7 +145,7 @@ export default class TimePicker extends Component {
                         </View>
                     </View>
 
-                    <View style={{ flexDirection: 'column', flex: 1, alignSelf: 'center', justifyContent: "center" }}>
+                    <View style={{ flexDirection: 'column', flex: 1, alignSelf: 'center', justifyContent: 'center' }}>
                         <View style={{ flexDirection: 'row', flex: 1, alignSelf: 'center' }}>
                             <Icon style={{ color: '#2F7294' }} onPress={() => this.Time()} type="FontAwesome" name="caret-up" />
                         </View>
@@ -120,7 +160,17 @@ export default class TimePicker extends Component {
                     </View>
 
                 </Card>
-            </AppTemplate>
+                <Button style={{ alignSelf: 'center' }} onPress={() => this.TimePicker()}>
+                    <Text>
+                        Time Picker
+                    </Text>
+                </Button>
+                <View style={{ flexDirection: 'column', alignSelf: 'center', height: 250, width: '50%', justifyContent: 'flex-end' }}>
+                    <Button rounded block style={{ backgroundColor: '#15588D' }} onPress={() => this.props.TimeOfDelivery(TimeDetails, nav)}>
+                        <Text style={{ fontSize: 20 }} >موافق</Text>
+                    </Button>
+                </View>
+            </AppTemplate >
         );
     }
 }
@@ -139,4 +189,9 @@ const styles = {
         alignItems: 'center',
         alignContent: 'center'
     }
-}
+};
+const mapStateToProps = (state) => {
+    const { DeliveryTime } = state.auth;
+    return { DeliveryTime };
+};
+export default connect(mapStateToProps, { TimeOfDelivery })(TimePicker);

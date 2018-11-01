@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { TouchableWithoutFeedback } from 'react-native';
-import { Button, Text, View } from 'native-base';
+import { Button, Text, View, Thumbnail } from 'native-base';
+import { connect } from 'react-redux';
+import { DeliveryCarType } from '../../../actions';
+
 import AppTemplate from '../appTemplate';
 import Square from '../../../components/common/square';
 
@@ -10,7 +13,7 @@ import Car from '../../../png/car.png';
 import Pickup from '../../../png/pickup-car.png';
 
 
-export default class CarType extends Component {
+class CarType extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,6 +23,10 @@ export default class CarType extends Component {
       sedanImg: Car,
       pickupImg: Pickup,
     };
+  }
+
+  componentDidMount() {
+    this.props.DeliveryCar === 'Sedan' ? this.Sedan() : this.Pickup()
   }
 
   Sedan() {
@@ -51,7 +58,7 @@ export default class CarType extends Component {
           </View>
         </View>
         <View style={{ flexDirection: 'column', alignSelf: 'center', height: 250, width: '50%', justifyContent: 'flex-end' }}>
-          <Button rounded block style={{ backgroundColor: '#15588D', }}>
+          <Button rounded block style={{ backgroundColor: '#15588D' }} onPress={() => this.state.carType === '' ? null : this.props.DeliveryCarType(this.state.carType, nav)} >
             <Text style={{ fontSize: 20 }}>موافق</Text>
           </Button>
         </View>
@@ -60,6 +67,9 @@ export default class CarType extends Component {
   }
 }
 
-const styles = {
+const mapStateToProps = (state) => {
+  const { DeliveryCar } = state.auth;
+  return { DeliveryCar };
+};
 
-}
+export default connect(mapStateToProps, { DeliveryCarType })(CarType);

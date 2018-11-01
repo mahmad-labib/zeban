@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import { } from 'native-base';
 import { connect } from 'react-redux';
-import { PlaceOfPickup } from '../../../actions';
+import { PlaceOfDelivery } from '../../../actions';
 import AppTemplate from '../appTemplate';
 import ListCard from '../../../components/common/card';
 import MapComponent from '../../../components/common/map';
@@ -27,13 +27,13 @@ class TalabDetails2 extends Component {
     }
     render() {
         const nav = this.props.navigation;
-        const header = this.props.PickupPlace ? this.props.PickupPlace.name : this.state.data.name;
-        const footer = this.props.PickupPlace ? this.props.PickupPlace.address : this.state.data.address;
+        const header = this.props.DeliveryPlace ? this.props.DeliveryPlace.name : this.state.data.name;
+        const footer = this.props.DeliveryPlace ? this.props.DeliveryPlace.address : this.state.data.address;
         return (
             <AppTemplate navigation={nav} name="حدد مكان التسليم">
 
                 <View style={{ position: 'relative' }}>
-                    <MapComponent PlaceOfDelivery={data => this.props.PlaceOfPickup(data)} MapMarker={this.props.PickupPlace} />
+                    <MapComponent PlaceOfDelivery={data => this.props.PlaceOfDelivery(data)} MapMarker={this.props.DeliveryPlace} />
                     <View style={{ position: 'absolute', width: '90%', bottom: 0, alignSelf: 'center' }}>
                         <ListCard header={header} footer={footer} rightIconSrc={MapMarker} />
                     </View>
@@ -44,8 +44,8 @@ class TalabDetails2 extends Component {
     }
 }
 const mapStateToProps = (state) => {
-    const { PickupPlace } = state.auth;
-    return { PickupPlace };
+    const { DeliveryPlace } = state.auth;
+    return { DeliveryPlace };
 };
 
-export default connect(mapStateToProps, { PlaceOfPickup })(TalabDetails2);
+export default connect(mapStateToProps, { PlaceOfDelivery })(TalabDetails2);

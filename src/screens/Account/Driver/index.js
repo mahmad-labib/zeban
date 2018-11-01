@@ -17,7 +17,7 @@ class Driver extends Component {
     }
 
     componentDidMount() {
-        // this.props.FetchUserData();
+        this.props.FetchUserData();
     }
 
     onStarClick(nextValue, prevValue, name) {

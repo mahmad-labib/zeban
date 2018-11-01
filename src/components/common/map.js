@@ -4,7 +4,7 @@ import {
     Dimensions,
 } from 'react-native';
 import { } from 'native-base';
-import MapView, { Marker, AnimatedRegion, Polyline, MapViewAnimated } from 'react-native-maps';
+import MapView, { Marker, AnimatedRegion, Polyline, MapViewAnimated, } from 'react-native-maps';
 import RNGooglePlaces from 'react-native-google-places';
 
 
@@ -47,6 +47,7 @@ export default class MapComponent extends Component {
     // }
 
     componentDidMount() {
+        // navigator.geolocation.getCurrentPosition(data => console.log('location', data));
         if (this.props.MapMarker) {
             this.AnimateOnPress(this.props.MapMarker);
         } else {

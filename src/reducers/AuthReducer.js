@@ -23,6 +23,10 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, DeliveryPlace: action.payload };
         case 'PlaceOfPickup':
             return { ...state, PickupPlace: action.payload };
+        case 'CarType':
+            return { ...state, DeliveryCar: action.payload };
+        case 'TimeOfDelivery':
+            return { ...state, DeliveryTime: action.payload };
         default:
             return state;
     }

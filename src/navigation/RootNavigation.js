@@ -153,7 +153,7 @@ const RootStack = createStackNavigator(
     },
     {
         headerMode: 'none',
-        initialRouteName: 'DriverTabNavigator',
+        initialRouteName: 'Auth',
     }
 );
 
