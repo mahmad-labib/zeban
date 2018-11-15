@@ -6,12 +6,13 @@ import {
   Dimensions,
   Image
 } from "react-native";
+import MapComponent from '../../../components/common/map';
 import { Button, Icon } from 'native-base'
 import MapView, { Marker, AnimatedRegion, Polyline, PROVIDER_GOOGLE } from "react-native-maps";
 import haversine from "haversine";
 import AppTemplate from '../appTemplate';
 import ListCard from '../../../components/common/card';
-import greenDot from '../../../png/green-dot.png';
+import GreenDot from '../../../png/green-dot.png';
 import Msg from '../../../png/send-button.png';
 import MapMarker from '../../../png/map-marker.png';
 import Cancel from '../../../png/cancel.png';
@@ -40,92 +41,20 @@ export default class TalabDetails extends Component {
     };
   }
 
-  componentWillMount() {
-    navigator.geolocation.getCurrentPosition(
-      position => { },
-      error => alert(error.message),
-      {
-        enableHighAccuracy: true,
-        timeout: 20000,
-        maximumAge: 1000
-      }
-    );
-  }
-
   componentDidMount() {
-    const { coordinate } = this.state;
-    this.watchID = navigator.geolocation.watchPosition(
-      position => {
-        const { coordinate, routeCoordinates, distanceTravelled } = this.state;
-        const { latitude, longitude } = position.coords;
 
-        const newCoordinate = {
-          latitude,
-          longitude
-        };
-
-        if (Platform.OS === "android") {
-          if (this.marker) {
-            this.marker._component.animateMarkerToCoordinate(
-              newCoordinate,
-              500
-            );
-          }
-        } else {
-          coordinate.timing(newCoordinate).start();
-        }
-
-        this.setState({
-          latitude,
-          longitude,
-          routeCoordinates: routeCoordinates.concat([newCoordinate]),
-          distanceTravelled:
-            distanceTravelled + this.calcDistance(newCoordinate),
-          prevLatLng: newCoordinate
-        });
-      },
-      error => console.log(error),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-    );
   }
-
-  componentWillUnmount() {
-    navigator.geolocation.clearWatch(this.watchID);
-  }
-
-  calcDistance = newLatLng => {
-    const { prevLatLng } = this.state;
-    return haversine(prevLatLng, newLatLng) || 0;
-  };
-
-  getMapRegion = () => ({
-    latitude: this.state.latitude,
-    longitude: this.state.longitude,
-    latitudeDelta: LATITUDE_DELTA,
-    longitudeDelta: LONGITUDE_DELTA
-  });
 
   render() {
-    const nav = this.props.navigation
+    const nav = this.props.navigation;
+    const Data = this.props.navigation.state.params;
+    const { Time, hour, minutes } = Data.value.DeliveryTime;
+    console.log(Data);
     return (
       <AppTemplate navigation={nav} name="تفاصيل الطلب">
         {/* <View style={{ flexDirection: 'column', height: height/2}}> */}
         <View style={{ position: 'relative' }}>
-          <MapView
-            provider={PROVIDER_GOOGLE}
-            style={styles.map}
-            showUserLocation
-            followUserLocation
-            loadingEnabled
-            region={this.getMapRegion()}
-          >
-            <Polyline coordinates={this.state.routeCoordinates} strokeWidth={5} />
-            <Marker.Animated
-              ref={marker => {
-                this.marker = marker;
-              }}
-              coordinate={this.state.coordinate} />
-          </MapView>
+          <MapComponent MapMarker={Data.value.PickupPlace} />
           <View style={{ position: 'absolute', top: 0, alignSelf: 'center', height: 40, backgroundColor: 'rgba(135, 135, 135, 0.8)' }}>
             <Text style={{ color: 'white', alignSelf: 'center', textAlign: 'center', width: '55%' }}>
               تتطلب خدمه ذيبان فزعه تكاليف اضافيه سيتم تفريغ مندوب بشكل خاص لتوصيل طلبك
@@ -138,13 +67,13 @@ export default class TalabDetails extends Component {
               </Icon>
               <Text style={{ paddingHorizontal: 20, color: 'white', fontSize: 16 }}>الغاء الطلب</Text>
             </Button>
-            <ListCard header={'مكان الاستلام '} footer={'حي النصر - شارع الوحده'} rightIconSrc={MapMarker} />
-            <ListCard header={'مكان التسليم'} footer={'حي النصر - شارع الوحده'} rightIconSrc={MapMarker} />
+            <ListCard header={'مكان الاستلام '} footer={Data.value.PickupPlace.address} rightIconSrc={MapMarker} />
+            <ListCard header={'مكان التسليم'} footer={Data.value.DeliveryPlace.address} rightIconSrc={MapMarker} />
           </View>
         </View>
         <View style={{ width: '90%', alignSelf: 'center' }}>
-          <ListCard header={'نوع السياره '} footer={'سيدان'} deliveryTime='3:00' />
-          <ListCard header={'الحاله'} footer={'جاري التوصيل'} leftIconSrc={greenDot} />
+          <ListCard header={'نوع السياره '} footer={Data.value.DeliveryCar} deliveryTime={`${hour}:${minutes} ${Time}`} />
+          <ListCard header={'الحاله'} footer={'جاري التوصيل'} leftIconSrc={GreenDot} />
           <ListCard header={'السائق'} footer={'عدنان شريف'} btnText="مراسله" btnIconSrc={Msg} />
         </View>
         {/* </View> */}
@@ -160,7 +89,7 @@ const styles = {
   //     alignItems: "center"
   // },
   map: {
-    width: '100%', height: height / 2, flex: 1
+    width: '100%', height: height * 0.8, flex: 1
   },
   bubble: {
     flex: 1,

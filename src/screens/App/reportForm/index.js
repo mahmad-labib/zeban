@@ -8,7 +8,7 @@ export default class ReportForm extends Component {
     const nav = this.props.navigation;
     return (
       <AppTemplate navigation={nav} name="اضافه شكوي">
-        <View style={{ flexdirection: 'row' }}>
+        <View style={{}}>
           <Form style={{ marginHorizontal: 14 }}>
             <View>
               <Text style={{ color: '#2A6C91', marginTop: 10, alignSelf: 'flex-end', fontSize: 20, marginRight: 5, fontWeight: 'bold' }} >عنوان الشكوي</Text>
@@ -20,7 +20,7 @@ export default class ReportForm extends Component {
             <Textarea style={{ borderRadius: 6, backgroundColor: 'white' }} rowSpan={6} bordered placeholder="" />
           </Form>
         </View>
-        <View style={{ flexdirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
           <Button iconLeft style={{ alignSelf: 'center', borderRadius: 15, backgroundColor: '#15588D' }} >
             <Icon type="FontAwesome" name="check-circle" />
             <Text style={{ fontSize: 20, fontWeight: 'bold' }}>ارسال</Text>

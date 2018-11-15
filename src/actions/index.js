@@ -128,10 +128,8 @@ export const CreateOrder = (data, nav) => {
     const { currentUser } = firebase.auth();
     const usersRef = firebase.database().ref('users');
     return (dispatch) => {
-        usersRef.child(currentUser.uid).update({
-            Orders: {
-                data
-            }
+        usersRef.child(`${currentUser.uid}/Orders`).push({
+            data
         })
             .then(Data => dispatch(
                 { type: 'CreateOrder', payload: Data }, nav.navigate('Driver'))
@@ -139,3 +137,7 @@ export const CreateOrder = (data, nav) => {
             .catch(err => console.log(err));
     };
 };
+
+export const OrdersData = () => {
+
+}

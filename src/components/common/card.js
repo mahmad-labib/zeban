@@ -5,7 +5,6 @@ import { Left, Icon, Right, Card, CardItem, Text, View, Button } from 'native-ba
 import Stars from 'react-native-stars';
 
 export default class ListCard extends Component {
-
   btn() {
     if (this.props.btnText) {
       return (
@@ -15,9 +14,7 @@ export default class ListCard extends Component {
           </Icon>
           <Text>{this.props.btnText}</Text>
         </Button>
-      )
-    } else {
-      null
+      );
     }
   }
 
@@ -33,28 +30,21 @@ export default class ListCard extends Component {
             <Text note style={{ color: '#707070', fontSize: 15, fontWeight: 'bold' }}>{this.props.deliveryTime}</Text>
           </View>
         </View>
-      )
-    } else {
-      null
+      );
     }
   }
 
   cardRightIcon() {
     if (this.props.rightIcon) {
       return (
-        <View style={{ flexDirection: 'column', flex: 0.4, alignSelf: 'center', justifyContent: 'center' }}>
+        <View style={{ flexDirection: 'column', alignSelf: 'center', justifyContent: 'center', alignContent: 'center' }}>
           <AutoHeightImage
             width={this.props.rightIconWidth}
             source={this.props.rightIcon}
             style={{ alignSelf: 'center' }}
           />
-          {/* <Icon style={{ alignSelf: 'center' }}>
-            <Image source={this.props.rightIcon} />
-          </Icon> */}
         </View>
-      )
-    } else {
-      null
+      );
     }
   }
 
@@ -86,9 +76,14 @@ export default class ListCard extends Component {
     if (this.props.leftIconSrc || this.btn() || this.deliveryClock() || this.LeftText()) {
       return (
         <Left style={{ flex: 0.5 }} >
-          <Icon style={{ color: this.props.LeftIconColor }} >
-            <Image source={this.props.leftIconSrc} />
-          </Icon>
+          {/* <Icon style={{ color: this.props.LeftIconColor }}> */}
+            <AutoHeightImage
+              width={15}
+              source={this.props.leftIconSrc}
+              style={{ alignSelf: 'center' }}
+            />
+            {/* <Image source={this.props.leftIconSrc} /> */}
+          {/* </Icon> */}
           {this.btn()}
           {this.deliveryClock()}
           {this.LeftText()}
@@ -97,9 +92,25 @@ export default class ListCard extends Component {
     }
   }
 
+  rightIconSrc() {
+    if (this.props.rightIconSrc) {
+      return (
+        <View style={{ flexDirection: 'column' }}>
+          <Icon style={{ color: 'black', marginLeft: 4 }}>
+            <AutoHeightImage
+              width={30}
+              source={this.props.rightIconSrc}
+              style={{ alignSelf: 'center' }}
+            />
+          </Icon>
+        </View>
+      );
+    }
+  }
+
   render() {
     return (
-      <Card style={{ flex: 1, borderRadius: 5 }} >
+      <Card style={{ borderRadius: 5 }} >
         <CardItem style={{ borderRadius: 5 }}>
           {this.RenderLeft()}
           <Right style={{ flex: 1, alignContent: 'flex-end' }}>
@@ -108,14 +119,10 @@ export default class ListCard extends Component {
             </View>
             <View style={{ flexDirection: 'row' }}>
               <View style={{ flexDirection: 'column' }}>
-                <Text note style={{ color: '#707070', fontSize: 15, fontWeight: 'bold', textAlign: 'right' }} >{this.props.footer}</Text>
+                <Text note style={{ color: '#707070', fontSize: 15, fontWeight: 'bold', textAlign: 'right' }} numberOfLines={1} >{this.props.footer}</Text>
                 {this.StarsComponent()}
               </View>
-              <View style={{ flexDirection: 'column' }}>
-                <Icon style={{ color: 'black', marginLeft: 4 }} >
-                  <Image source={this.props.rightIconSrc} />
-                </Icon>
-              </View>
+              {this.rightIconSrc()}
             </View>
           </Right>
           {this.cardRightIcon()}

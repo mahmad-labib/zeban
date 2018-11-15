@@ -104,6 +104,7 @@ export default class MapComponent extends Component {
     };
 
     AnimateOnPress(place) {
+        console.log(this.props.MapMarker);
         const { latitude, longitude } = place;
         const NewCoordinate = {
             latitude,
@@ -119,7 +120,6 @@ export default class MapComponent extends Component {
                 latitude: place.latitude,
                 longitude: place.longitude,
             },
-            350
         );
     }
 
@@ -133,7 +133,7 @@ export default class MapComponent extends Component {
                 showUserLocation={true}
                 followUserLocation={true}
                 cacheEnabled={true}
-                loadingEnabled
+                loadingEnabled={true}
                 region={this.getMapRegion()}
                 onPoiClick={data =>
                     RNGooglePlaces.lookUpPlaceByID(data.nativeEvent.placeId)
@@ -167,13 +167,8 @@ export default class MapComponent extends Component {
 }
 
 const styles = {
-    // container: {
-    //     ...StyleSheet.absoluteFillObject,
-    //     justifyContent: "flex-end",
-    //     alignItems: "center"
-    // },
     map: {
-        width: '100%', height: height / 2, flex: 1
+        width: '100%', height: height * 0.6, flex: 1
     },
     latlng: {
         width: 200,

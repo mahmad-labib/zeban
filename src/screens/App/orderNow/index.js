@@ -44,7 +44,7 @@ class OrderNow extends Component {
                         </TouchableOpacity>
                     </View>
                 </View>
-                <View style={{ flexdirection: 'row' }}>
+                <View style={{}}>
                     <Form style={{ marginHorizontal: 14 }}>
                         <View style={{ width: '80%', alignSelf: 'center' }}>
                             <Text style={{ color: '#266A8F', fontSize: 20, fontWeight: 'bold', textAlign: 'center' }}>تفاصيل الطلب</Text>

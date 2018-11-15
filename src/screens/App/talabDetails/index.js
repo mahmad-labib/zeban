@@ -17,8 +17,6 @@ let { width, height } = Dimensions.get('window');
 
 
 export default class TalabDetails1 extends Component {
-
-
     render() {
         const nav = this.props.navigation
         return (

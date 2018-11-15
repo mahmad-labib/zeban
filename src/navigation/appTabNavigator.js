@@ -45,12 +45,12 @@ const AppTabNavigator = createBottomTabNavigator(
                 // <Icon name={iconName} type="Ionicons" size={23} color={tintColor} />;
                 return (
                     <Icon size={23} color={tintColor} >
-                        <Image source={iconName} />
-                        {/* <AutoHeightImage
-                            width={150}
+                        {/* <Image source={iconName} /> */}
+                        <AutoHeightImage
+                            width={100}
                             source={iconName}
                             style={{ alignSelf: 'center' }}
-                        /> */}
+                        />
                     </Icon>
                 );
             },
