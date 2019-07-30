@@ -32,7 +32,7 @@
     "axios": "^0.18.0",
     "fbjs": "^0.8.17",
     "haversine": "^1.1.0",
-    "lodash": "^4.17.10",
+    //"lodash": "^4.17.10",
     "native-base": "^2.6.1",
     "react": "^16.3.2",
     "react-native": "^0.55.3",
