@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@shoutem/ui": "^0.23.4",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "fbjs": "^0.8.17",
     "haversine": "^1.1.0",
     //"lodash": "^4.17.10",
